@@ -1,0 +1,3 @@
+recursive-include vetway_ui/static *
+recursive-include vetway_ui/templates *
+global-exclude .DS_Store __pycache__ *.pyc

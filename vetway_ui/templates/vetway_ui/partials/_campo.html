@@ -1,0 +1,21 @@
+{% comment %}
+Partial: _campo.html
+Uso: {% include "vetway_ui/partials/_campo.html" with label="Etichetta" val=valore multiline=True mono=True field_name="campo_db" %}
+field_name opzionale: aggiunge data-range-field, gancio per l'eventuale JS dell'ospite che colora il valore in base a un range
+{% endcomment %}
+<div class="mb-2">
+  <div class="campo-label">{{ label|safe }}{% if help_key %} <i class="bi bi-info-circle help-icon" style="cursor:pointer;color:#1a5fa8;font-size:0.8rem;vertical-align:middle;" onclick="openHelpModal('{{ help_key }}')"></i>{% endif %}</div>
+  <div class="campo-valore {% if not val or val == '–' %}vuoto{% endif %} {% if calc %}campo-calcolato{% endif %}
+               {% if mono %}font-monospace{% endif %}"
+       {% if field_name %}data-range-field="{{ field_name }}"{% endif %}>
+    {% if multiline %}
+      {% if val %}
+        <div style="white-space: pre-wrap; font-size:0.85rem; line-height:1.5; padding: 6px 10px; background:#f8f9fb; border-radius:4px; border:1px solid #e8ecf0;">{{ val }}</div>
+      {% else %}
+        <span style="color:#ccc;">–</span>
+      {% endif %}
+    {% else %}
+      {% if val and decimals == 0 %}{{ val|floatformat:0 }}{% elif val and decimals == 1 %}{{ val|floatformat:1 }}{% elif val and decimals %}{{ val|floatformat:2 }}{% else %}{{ val|default:"–" }}{% endif %}
+    {% endif %}
+  </div>
+</div>

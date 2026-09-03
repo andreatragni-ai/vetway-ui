@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+{% comment %}
+vetway_ui/base.html — layout base condiviso (pacchetto vetway-ui).
+Solo presentazione: nessun riferimento a modelli, view o URL dell'ospite.
+
+Blocchi, nell'ordine in cui compaiono:
+  title        — titolo della pagina
+  theme_color  — contenuto del <meta name="theme-color"> (default in base a body_brand)
+  host_head    — CSS/JS dell'applicazione ospite, caricati SUBITO DOPO vetway.css
+                 (es. il cardio.css di Vetway). Separato da extra_head perche' le
+                 singole pagine sovrascrivono extra_head senza block.super.
+  extra_head   — head aggiuntivo della singola pagina
+  body_tema    — valore di data-tema sul <body> (default: variabile body_tema o "originale")
+  body_brand   — attributo data-brand sul <body> (default: data-brand="{{ body_brand }}" se
+                 la variabile e' valorizzata; "osservatorio" attiva la palette OVIC)
+  body_attrs   — altri attributi del <body>
+  avvisi       — banner sopra la testata (es. "account di prova")
+  header       — testata/banner del marchio
+  navbar       — barra di navigazione (vedi partials/_navbar.html per la cornice generica)
+  content      — contenuto della pagina
+  footer       — pie' di pagina (default: partials/_footer.html)
+  extra_js     — script della singola pagina, dopo bootstrap e vetway.js
+  modal_import_pdf — mantenuto per compatibilita' con i template Vetway esistenti
+  extra_body   — modali/partial dell'ospite prima di </body>
+
+Variabili di contesto lette: body_tema, body_brand, sessione_minuti (durata della
+sessione in minuti per il conto alla rovescia; default 300), privacy_url, prodotto,
+messages, user.is_authenticated.
+{% endcomment %}
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Vetway{% endblock %}</title>
+
+  <!-- Favicon Vetway -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'vetway_ui/img/favicon-32.png' %}?v=6">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'vetway_ui/img/favicon-16.png' %}?v=6">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'vetway_ui/img/favicon-192.png' %}?v=6">
+  <link rel="icon" type="image/png" sizes="512x512" href="{% static 'vetway_ui/img/favicon-512.png' %}?v=6">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'vetway_ui/img/apple-touch-icon.png' %}?v=6">
+  <link rel="shortcut icon" href="{% static 'vetway_ui/img/favicon.ico' %}?v=6">
+  <meta name="theme-color" content="{% block theme_color %}{% if body_brand == 'osservatorio' %}#0f2540{% else %}#08222a{% endif %}{% endblock %}">
+
+  <!-- Bootstrap 5 (self-hosted: no CDN di terzi → nessun IP inviato fuori) -->
+  <link href="{% static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="{% static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <!-- HTMX -->
+  <script src="{% static 'vetway_ui/vendor/htmx/htmx.min.js' %}" defer></script>
+
+  <!-- Strato grafico condiviso (vetway-ui) -->
+  <link href="{% static 'vetway_ui/css/vetway.css' %}" rel="stylesheet">
+  {% block host_head %}{% endblock %}
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body data-tema="{% block body_tema %}{{ body_tema|default:'originale' }}{% endblock %}"{% block body_brand %}{% if body_brand %} data-brand="{{ body_brand }}"{% endif %}{% endblock %} data-sessione-minuti="{{ sessione_minuti|default:300 }}"{% block body_attrs %}{% endblock %}>
+
+{% block avvisi %}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% if user.is_authenticated %}
+<div class="sessione-bar" id="sessione-bar" style="display:none;">
+  <i class="bi bi-clock me-1"></i>Scadenza sessione: <span id="sessione-countdown">{{ sessione_minuti|default:300 }}:00</span>
+</div>
+{% endif %}
+
+<!-- Spinner globale HTMX -->
+<div id="global-spinner" class="htmx-indicator">
+  <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+  Caricamento...
+</div>
+
+<!-- Messaggi Django -->
+{% include "vetway_ui/partials/_messages.html" %}
+
+<!-- Contenuto pagina -->
+<div class="ovic-main">
+  {% block content %}{% endblock %}
+</div>
+
+<!-- Footer -->
+{% block footer %}{% include "vetway_ui/partials/_footer.html" with privacy_url=privacy_url prodotto=prodotto %}{% endblock %}
+
+<script src="{% static 'vetway_ui/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vetway_ui/js/vetway.js' %}"></script>
+{% block extra_js %}{% endblock %}
+{% block modal_import_pdf %}{% endblock %}
+  {% include "vetway_ui/partials/_modal_conferma_elimina.html" %}
+{% block extra_body %}{% endblock %}
+</body>
+</html>

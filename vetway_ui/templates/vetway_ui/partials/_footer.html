@@ -1,0 +1,11 @@
+{% comment %}
+_footer.html — pie' di pagina.
+Variabili attese:
+  prodotto    — nome mostrato dopo "Powered by" (default "Vetway")
+  privacy_url — URL dell'informativa privacy; se vuoto il link non compare
+Uso: {% include "vetway_ui/partials/_footer.html" with privacy_url=privacy_url prodotto="Vetway" %}
+{% endcomment %}
+<div class="ovic-footer">
+  Powered by <strong style="color:rgba(255,255,255,0.8);">{{ prodotto|default:"Vetway" }}</strong> &nbsp;·&nbsp; Django + PostgreSQL
+  {% if privacy_url %}&nbsp;·&nbsp; <a href="{{ privacy_url }}" style="color:rgba(255,255,255,0.7);">Privacy &amp; cookie</a>{% endif %}
+</div>

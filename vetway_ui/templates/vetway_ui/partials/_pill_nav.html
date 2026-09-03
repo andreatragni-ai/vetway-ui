@@ -1,0 +1,46 @@
+{% comment %}
+_pill_nav.html — contenitore della navigazione a sezioni di una scheda:
+sidebar a sinistra da lg (992px) in su, barra a "pillole" sopra il contenuto
+sotto i 992px, con pulsante di apertura/chiusura sotto i 730px.
+Da usare dentro un flex container insieme a un <div class="ovic-sidebar-content">.
+
+Variabili attese:
+  pill_titolo    — testo del pulsante mobile (es. "Navigazione — Generali")
+  pill_progresso — facoltativo: dict {fatti, totali} → barra di avanzamento in testa
+  pill_gruppi    — lista di gruppi, ciascuno:
+                     label   — etichetta del gruppo (es. "Esame")
+                     classe  — classe che porta il colore del gruppo (es. "color-esame");
+                               l'ospite definisce --gc e --gc-tint su quella classe e su
+                               .sidebar-item.<gruppo>
+                     gruppo  — classe delle voci (es. "group-esame")
+                     voci    — lista di {url, label, icona (Bootstrap Icons senza "bi-"),
+                               attiva, stato ("ok" | "vuota" | "manca"), manca_n, title}
+Il pulsante mobile apre/chiude #sidebar-items (classe .show).
+{% endcomment %}
+<nav class="ovic-sidebar-nav">
+  <button class="sidebar-mobile-toggle" type="button"
+          onclick="document.getElementById('sidebar-items').classList.toggle('show')">
+    <span><i class="bi bi-list me-2"></i>{{ pill_titolo|default:"Navigazione" }}</span>
+    <i class="bi bi-chevron-down"></i>
+  </button>
+  <div id="sidebar-items" class="sidebar-nav-items">
+    {% if pill_progresso.totali %}
+    <div class="sidebar-progress">
+      <div class="prog-testo"><span>Compilazione</span><span>{{ pill_progresso.fatti }} / {{ pill_progresso.totali }}</span></div>
+      <div class="prog-barra"><i style="width:{% widthratio pill_progresso.fatti pill_progresso.totali 100 %}%"></i></div>
+    </div>
+    {% endif %}
+    {% for gruppo in pill_gruppi %}
+    <div class="sidebar-group-label {{ gruppo.classe }}">{{ gruppo.label }}</div>
+    {% for voce in gruppo.voci %}
+    <a class="sidebar-item {{ gruppo.gruppo }} {% if voce.attiva %}active{% endif %}"
+       href="{{ voce.url }}"{% if voce.title %} title="{{ voce.title }}"{% endif %}>
+      {% if voce.icona %}<i class="bi bi-{{ voce.icona }} me-1"></i>{% endif %}{{ voce.label }}
+      {% if voce.stato == "manca" %}<span class="tab-stato manca">{{ voce.manca_n|default:"!" }}</span>
+      {% elif voce.stato == "ok" %}<span class="tab-stato ok"><i class="bi bi-check-lg"></i></span>
+      {% elif voce.stato == "vuota" %}<span class="tab-stato vuota"></span>{% endif %}
+    </a>
+    {% endfor %}
+    {% endfor %}
+  </div>
+</nav>

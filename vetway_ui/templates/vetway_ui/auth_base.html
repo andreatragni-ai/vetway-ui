@@ -1,0 +1,50 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}
+vetway_ui/auth_base.html — pagina "scheda centrata su fondo scuro" per login,
+reset password e simili (pacchetto vetway-ui).
+Blocchi: auth_title (titolo, seguito da " – Vetway"), auth_extra_head,
+         auth_content (il contenuto della scheda bianca .auth-box).
+Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
+.errorlist; .form-label/.form-control sono ridefiniti solo qui.
+{% endcomment %}
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block auth_title %}Vetway{% endblock %} – Vetway</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'vetway_ui/img/favicon-32.png' %}?v=6">
+  <link rel="shortcut icon" href="{% static 'vetway_ui/img/favicon.ico' %}?v=6">
+  <meta name="theme-color" content="#08222a">
+  <link href="{% static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #08222a 0%, #123c44 60%, #1c525c 100%);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: 'Segoe UI', system-ui, sans-serif; padding: 1rem;
+    }
+    .auth-box { background: white; border-radius: 10px; padding: 2.2rem 2.2rem 1.8rem;
+      width: 380px; max-width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .auth-head { text-align: center; margin-bottom: 1.4rem; }
+    .auth-head .ico { font-size: 2.2rem; color: #123c44; }
+    .auth-head h2 { font-size: 1.2rem; font-weight: 800; color: #123c44; margin: .4rem 0 0; }
+    .auth-head p { font-size: 0.82rem; color: #888; margin: .3rem 0 0; }
+    .form-label { font-size: 0.82rem; font-weight: 600; color: #444; }
+    .form-control { font-size: 0.88rem; border-radius: 5px; }
+    .form-control:focus { border-color: #2f9da3; box-shadow: 0 0 0 3px rgba(47,157,163,0.15); }
+    .btn-auth { background: #123c44; color: white; font-weight: 700; width: 100%;
+      padding: 10px; border: none; border-radius: 5px; font-size: 0.9rem; letter-spacing: .05em; transition: background .2s; }
+    .btn-auth:hover { background: #08222a; color: white; }
+    .auth-link { font-size: 0.82rem; color: #1a5fa8; text-decoration: none; }
+    .auth-link:hover { text-decoration: underline; }
+    .errorlist { color: #c0392b; font-size: 0.8rem; list-style: none; padding-left: 0; margin: .3rem 0; }
+  </style>
+  {% block auth_extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="auth-box">
+    {% block auth_content %}{% endblock %}
+  </div>
+</body>
+</html>

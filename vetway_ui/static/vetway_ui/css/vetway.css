@@ -1,0 +1,655 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   vetway.css — strato grafico condiviso Vetway (pacchetto vetway-ui)
+   Solo presentazione generica: nessuna regola di dominio (quelle stanno
+   nell'applicazione ospite, caricate DOPO questo file in extra_head).
+   Estratto da templates/cardio/base.html di Vetway il 03/09/2026: colori,
+   font, spaziature e breakpoint sono quelli originali, non ritoccati.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Palette di default: petrol/teal Vetway. Stessi nomi di variabile
+     storici (--ovic-*) per non dover toccare i template che le usano —
+     cambia solo il valore. La variante OVIC (navy/oro) si attiva con
+     data-brand="osservatorio" sul <body>, vedi sotto. */
+  --ovic-blu:      #123c44;
+  --ovic-blu-dark: #08222a;
+  --ovic-oro:      #2f9da3;
+  --ovic-oro-lt:   #4bb8bd;
+  --ovic-oro-dark: #21787c;
+  --ovic-grigio:  #f5f6f8;
+  --ovic-bordo:   #dde2ea;
+  --ovic-testo:   #1e2a38;
+  --ovic-link:    #1a5fa8;
+}
+/* Variante OVIC (osservatorio): navy/oro. Gli stessi esadecimali che
+   Vetway usava nel blocco {% if esame.tipo_scheda == 'osservatorio' %}.
+   L'attributo sul body ha sempre la meglio su :root, a prescindere
+   dall'ordine, perche' le proprieta' custom si ereditano dal body in giu'. */
+body[data-brand="osservatorio"] {
+  --ovic-blu:      #1a3a5c;
+  --ovic-blu-dark: #0f2540;
+  --ovic-oro:      #c8952a;
+  --ovic-oro-lt:   #e8b84b;
+  --ovic-oro-dark: #a07820;
+}
+
+/* ── Numeri tabellari ovunque: cifre a larghezza fissa nelle tabelle di
+   parametri e negli input numerici, cosi' le colonne di misure si
+   allineano e i confronti tra controlli si fanno a colpo d'occhio.
+   Inerte sul testo non numerico — sicuro da applicare in modo ampio. ── */
+table td, table th, input, .form-control, .form-select {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Header: vedi cardio/_header_scheda.html (banner Vetway/OVIC dinamico) ── */
+
+/* ── Navbar ── */
+.ovic-nav {
+  background: white;
+  border-bottom: 1px solid var(--ovic-bordo);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 42px;
+  font-size: 0.88rem;
+}
+.ovic-nav a {
+  color: var(--ovic-blu);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0 1rem;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+.ovic-nav a:hover, .ovic-nav a.active {
+  color: var(--ovic-oro);
+  border-bottom-color: var(--ovic-oro);
+}
+/* Banda tablet (768–991): con l'aggiunta di «Eco addome» le voci piu'
+   l'utente non entravano in 768px e la pagina scrollava di lato su ogni
+   schermata. Si stringono i fianchi solo qui; da lg in su resta invariato. */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .ovic-nav { padding: 0 0.75rem; }
+  .ovic-nav a { padding: 0 0.6rem; }
+  /* Il logo profilo ha width:auto: uno panoramico (400x100 -> 112px a 28px
+     di altezza) rimette la navbar in overflow anche coi fianchi stretti.
+     Cap assoluto, cosi' vale per qualunque proporzione; l'object-fit
+     inline preserva le proporzioni dentro il box. */
+  .ovic-nav .user-info img { max-width: 40px; }
+}
+.ovic-nav .user-info {
+  color: #555;
+  font-size: 0.82rem;
+}
+.ovic-nav .user-info strong {
+  color: var(--ovic-blu);
+}
+
+/* ── Sessione avviso ── */
+.sessione-bar {
+  background: #fff8e1;
+  border-bottom: 1px solid #ffe082;
+  font-size: 0.78rem;
+  color: #7b5800;
+  padding: 3px 1.5rem;
+}
+
+/* ── Contenuto principale ── */
+.ovic-main {
+  background: var(--ovic-grigio);
+  min-height: calc(100vh - 180px);
+  padding: 1.5rem;
+}
+
+/* ── Card sezione ── */
+.ovic-card {
+  background: white;
+  border: 1px solid var(--ovic-bordo);
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin-bottom: 1rem;
+}
+.ovic-card .card-header-ovic {
+  background: var(--ovic-blu);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px 5px 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.ovic-card .card-body-ovic {
+  padding: 1rem 1.25rem;
+}
+
+/* ── Filtri ricerca ── */
+.filtri-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 2px;
+}
+.form-control, .form-control-sm,
+.filtri-label + .form-control {
+  font-size: 0.88rem !important;
+  min-height: calc(1.5em + 0.5rem + 2px) !important;
+  height: auto !important;
+  padding: 0.25rem 0.5rem !important;
+  line-height: 1.5 !important;
+}
+.form-select, .form-select-sm,
+.filtri-label + .form-select {
+  font-size: 0.88rem !important;
+  min-height: calc(1.5em + 0.5rem + 2px) !important;
+  height: auto !important;
+  padding: 0.25rem 1.75rem 0.25rem 0.5rem !important;
+  line-height: 1.5 !important;
+}
+/* Dentro le tabelle: eredita font e compatta l'input */
+.table .form-control, .table .form-control-sm {
+  font-size: inherit !important;
+  min-height: unset !important;
+  height: auto !important;
+  padding: 0.1rem 0.3rem !important;
+  line-height: 1.4 !important;
+}
+.table .form-select, .table .form-select-sm {
+  font-size: inherit !important;
+  min-height: unset !important;
+  height: auto !important;
+  padding: 0.1rem 1.5rem 0.1rem 0.3rem !important;
+  line-height: 1.4 !important;
+  background-size: 12px !important;
+}
+
+/* ── Tabella risultati ── */
+.tbl-risultati {
+  font-size: 0.80rem;
+  border-collapse: collapse;
+  width: 100%;
+}
+.tbl-risultati thead th {
+  background: var(--ovic-blu);
+  color: white;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 7px 8px;
+  white-space: nowrap;
+  border: none;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.tbl-risultati tbody tr {
+  border-bottom: 1px solid #edf0f4;
+  transition: background 0.1s;
+}
+.tbl-risultati tbody tr:hover {
+  background: #eef4fd;
+}
+.tbl-risultati tbody td {
+  padding: 5px 8px;
+  vertical-align: middle;
+  color: var(--ovic-testo);
+}
+
+/* Riga evidenziata (utente corrente) */
+.tbl-risultati tbody tr.mia-riga {
+  background: #f0f7ff;
+}
+.tbl-risultati tbody tr.mia-riga:hover {
+  background: #deeeff;
+}
+
+/* ── Badge stato ── */
+.badge-stato-salvata    { background: #e8f4fd; color: #1565c0; border: 1px solid #90caf9; }
+.badge-stato-completata  { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.badge-stato-certificata { background: var(--ovic-blu); color: #fff;    border: 1px solid var(--ovic-blu); }
+
+/* ── Azioni testata sempre visibili (Modifica/Stampa/Invia) ── */
+.btn-testata-ghost {
+  background: transparent; color: var(--ovic-blu); border: 1px solid #c4ccd5;
+  border-radius: 4px; padding: 4px 11px; font-size: 0.78rem; font-weight: 600;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+  white-space: nowrap; transition: background 0.12s;
+}
+.btn-testata-ghost:hover { background: #eef2f7; color: var(--ovic-blu); }
+
+/* ── Righe tabella cliccabili con azioni nel kebab (⋮) ── */
+.tbl-risultati tbody tr.riga-cliccabile { cursor: pointer; }
+.tbl-risultati td.td-kebab { text-align: right; white-space: nowrap; }
+.td-kebab .dropdown-toggle::after { display: none; }
+.td-kebab .dropdown-toggle {
+  background: none; border: none; color: #8b95a0; font-weight: 700;
+  padding: 2px 8px; font-size: 0.95rem; line-height: 1;
+}
+.td-kebab .dropdown-toggle:hover { color: var(--ovic-blu); }
+
+/* ── Numeri incolonnati (date, misure, frequenze) ── */
+.num-tab { font-variant-numeric: tabular-nums; }
+
+/* ── Pulsante SEL ── */
+.btn-sel {
+  background: var(--ovic-blu);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s;
+}
+.btn-sel:hover { background: var(--ovic-blu-dark); color: white; }
+
+/* ── Bottoni azione ── */
+.btn-nuova {
+  background: var(--ovic-oro);
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-nuova:hover { background: var(--ovic-oro-dark); color: white; }
+
+/* ── Barra azioni di testata: pulsanti alla stessa altezza ──
+   I pulsanti arrivano da tre famiglie che rendevano tre altezze diverse:
+   .btn-sm outline (29.2px), .btn-nuova figlio diretto del flex container
+   (32.4px, blockificato dal flex) e .btn-nuova dentro .dropdown (28px,
+   resta inline). Azzerare il padding verticale e fissare min-height li
+   porta tutti a 32px a prescindere dal contesto. Colore, peso e padding
+   orizzontale restano distinti: sono la gerarchia fra azione secondaria
+   e primaria, non un'incoerenza. Selettore scoped di proposito —
+   .btn-nuova e' usata in 12 template e non va ridefinita globalmente. */
+.barra-azioni-testata .btn,
+.barra-azioni-testata .btn-nuova {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 0.8rem;
+}
+
+/* ── HTMX loading indicator ── */
+.htmx-indicator {
+  display: none;
+}
+.htmx-request .htmx-indicator {
+  display: inline-block;
+}
+
+/* ── Tab esame ── */
+.ovic-tabs .nav-link {
+  font-size: 0.82rem;
+  color: var(--ovic-blu);
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 4px 4px 0 0;
+}
+.ovic-tabs .nav-link.active {
+  background: var(--ovic-blu);
+  color: white;
+  border-color: var(--ovic-blu);
+}
+
+/* ── Sidebar esame ("rail quieta": gruppi discreti, voci protagoniste) ── */
+.ovic-sidebar-nav {
+  width: 190px;
+  flex-shrink: 0;
+  background: #f7f9fb;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid var(--ovic-bordo);
+  border-right: none;
+  padding: 10px 0 6px;
+  position: sticky;
+  top: 10px;
+  align-self: flex-start;
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+}
+/* Avanzamento compilazione in testa alla sidebar */
+.sidebar-progress { padding: 0 14px 10px; border-bottom: 1px solid #e3e8ee; margin-bottom: 6px; }
+.sidebar-progress .prog-testo {
+  display: flex; justify-content: space-between;
+  font-size: 0.7rem; font-weight: 600; color: #5b6875;
+}
+.sidebar-progress .prog-barra {
+  height: 4px; border-radius: 2px; background: #e3e8ee; margin-top: 5px; overflow: hidden;
+}
+.sidebar-progress .prog-barra i {
+  display: block; height: 100%; background: #2e7d32; border-radius: 2px;
+}
+
+/* Tema "originale": stessi colori del classico ma con lo stile precedente
+   alla rail quieta — etichette a blocco pieno e voce attiva a fondo pieno. */
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-group-label {
+  color: #fff; background: var(--gc);
+  margin: 10px 6px 0; border-radius: 4px; padding: 6px 12px 4px;
+}
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-group-label::before { display: none; }
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active {
+  background: var(--gc); color: #fff;
+}
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .bi { color: #fff; }
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.ok { color: #fff; }
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.vuota { border-color: rgba(255,255,255,.75); }
+.ovic-sidebar-nav .sidebar-group-label {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: #5b6875;
+  padding: 9px 14px 3px;
+}
+.ovic-sidebar-nav .sidebar-group-label::before {
+  content: ""; width: 8px; height: 8px; border-radius: 2px;
+  background: var(--gc, #5b6875); flex: none;
+}
+.ovic-sidebar-nav .sidebar-group-label.diagnostica-group {
+  margin-top: 6px;
+}
+.ovic-sidebar-nav .sidebar-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 30px;
+  padding: 5px 12px 5px 11px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: background 0.15s;
+}
+.ovic-sidebar-nav .sidebar-item .bi { color: #8494a5; }
+.ovic-sidebar-nav .sidebar-item:hover {
+  background: #eceff3;
+}
+.ovic-sidebar-nav .sidebar-item.active {
+  font-weight: 700;
+  color: var(--gc);
+  background: var(--gc-tint);
+  border-left-color: var(--gc);
+}
+.ovic-sidebar-nav .sidebar-item.active .bi { color: var(--gc); }
+
+/* ── Stato compilazione della sezione (a destra della voce) ── */
+.tab-stato {
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.tab-stato.ok { color: #2e7d32; font-size: 0.8rem; }
+.tab-stato.manca {
+  min-width: 16px; height: 16px; padding: 0 4px; border-radius: 99px;
+  background: #fdecea; color: #b3261e; border: 1px solid #f2b8b5;
+  font-size: 0.66rem; font-weight: 700;
+}
+.tab-stato.vuota {
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1.5px solid #9aa7b4; margin-right: 3px;
+}
+.ovic-sidebar-content {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--ovic-bordo);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  min-height: 400px;
+}
+@media (max-width: 991px) {
+  .ovic-sidebar-nav {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid var(--ovic-bordo);
+    border-bottom: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 6px;
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+  .sidebar-progress { width: 100%; padding: 2px 8px 8px; }
+  .ovic-sidebar-nav .sidebar-group-label {
+    width: 100%;
+    padding: 4px 8px 2px;
+    margin-top: 2px;
+    border-top: none;
+  }
+  .ovic-sidebar-nav .sidebar-group-label.diagnostica-group {
+    border-top: 2px dashed var(--ovic-bordo);
+  }
+  .ovic-sidebar-nav .sidebar-item {
+    width: auto;
+    min-height: 36px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    border-left: none;
+    border-radius: 4px;
+    gap: 4px;
+  }
+  .ovic-sidebar-nav .sidebar-item .tab-stato { margin-left: 4px; }
+  .ovic-sidebar-content { border-radius: 0 0 8px 8px; }
+}
+
+/* ── Sidebar mobile toggle ── */
+.sidebar-mobile-toggle {
+  display: none;
+  width: 100%;
+  background: #f0f4f8;
+  border: 1px solid var(--ovic-bordo);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ovic-blu);
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+}
+.sidebar-nav-items { display: contents; }
+@media (max-width: 729px) {
+  .sidebar-mobile-toggle { display: flex; }
+  .sidebar-nav-items { display: none; }
+  .sidebar-nav-items.show { display: contents; }
+}
+
+/* ── Etichetta campo ── (UI valore-protagonista) */
+.campo-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #212529;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+.campo-label-unit {
+  font-size: 0.85em;
+  font-weight: 500;
+  opacity: 0.65;
+  letter-spacing: 0;
+}
+.campo-valore {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #212529;
+  min-height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+.campo-valore.vuoto { color: #bbb; font-style: italic; font-weight: 400; }
+.campo-valore.campo-calcolato {
+  color: #0d47a1;
+  background: #f0f7ff;
+  border-color: #b6dafe;
+}
+.campo-range { font-size: 0.7rem; color: #888; text-align: right; margin-top: -4px; margin-bottom: 4px; }
+
+/* ── Sezioni dettaglio ── */
+.sezione-titolo {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: white;
+  background: var(--ovic-blu);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  margin: 0 0 0.75rem;
+  border-radius: 4px;
+}
+/* Sottotitolo: gruppi di tabelle DENTRO una sezione (es. Studio Atriale
+   dentro Misure ECG). Gerarchia visiva: banner blu = sezione, banner
+   chiaro = sottogruppo. */
+.sezione-sottotitolo {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ovic-blu);
+  background: #eef2f7;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border: 1px solid var(--ovic-bordo);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+
+/* ── Footer ── */
+.ovic-footer {
+  background: var(--ovic-blu);
+  color: rgba(255,255,255,0.5);
+  text-align: right;
+  font-size: 0.72rem;
+  padding: 8px 1.5rem;
+}
+
+/* ── Spinner HTMX ── */
+#global-spinner {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 9999;
+  background: rgba(255,255,255,0.9);
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  font-size: 0.85rem;
+  color: var(--ovic-blu);
+}
+
+/* === Vetway mobile responsive — sprint #1 — 22/05/2026 === */
+/* Testo metadati: piu' grande su mobile per leggibilita' */
+.ovic-meta {
+  font-size: 0.78rem;
+  color: #555;
+}
+@media (max-width: 767.98px) {
+  .ovic-meta { font-size: 0.85rem; }
+}
+/* Badge numerico controllo: touch target adeguato su mobile */
+.ovic-num-badge {
+  min-width: 28px;
+  min-height: 24px;
+  font-size: 0.72rem;
+  text-align: center;
+}
+@media (max-width: 767.98px) {
+  .ovic-num-badge {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 0.9rem;
+    padding: 4px 8px !important;
+  }
+}
+/* Divider verticale solo su desktop (border-left + padding) */
+.ovic-divider-md {
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .ovic-divider-md {
+    border-left: 2px solid #eee;
+    padding-left: 1rem;
+  }
+}
+/* Input form su mobile: forza 16px per evitare zoom iOS al focus */
+@media (max-width: 767.98px) {
+  .form-control, .form-select,
+  input[type="text"], input[type="number"], input[type="email"],
+  input[type="password"], input[type="search"], textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Indicatore visivo scroll orizzontale per tabelle su mobile */
+@media (max-width: 767.98px) {
+  .table-responsive {
+    position: relative;
+  }
+  .table-responsive::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 24px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.08));
+    pointer-events: none;
+  }
+}
+
+/* === Vetway mobile responsive — sprint #2 — 22/05/2026 (navbar) === */
+/* Hamburger navbar (visibile solo <md) */
+.ovic-nav-hamburger {
+  background: none;
+  border: none;
+  color: var(--ovic-blu);
+  font-size: 1.4rem;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+@media (max-width: 767.98px) {
+  .ovic-nav { padding: 0 0.5rem; }
+}
+/* Voci offcanvas navbar */
+#navOffcanvas .list-group-item {
+  border: none;
+  border-bottom: 1px solid var(--ovic-bordo);
+  padding: 0.85rem 1rem;
+  color: var(--ovic-blu);
+  font-weight: 600;
+}
+#navOffcanvas .list-group-item.active {
+  background: var(--ovic-grigio);
+  color: var(--ovic-oro);
+  border-left: 4px solid var(--ovic-oro);
+}
+#navOffcanvas .list-group-item i.bi { width: 1.4em; }
+#navOffcanvas .nav-section-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  padding: 0.5rem 1rem 0.25rem;
+  font-weight: 700;
+}
