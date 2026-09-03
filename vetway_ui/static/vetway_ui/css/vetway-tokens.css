@@ -1,0 +1,34 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   vetway-tokens.css — le variabili di palette (--ovic-*) dello strato
+   grafico Vetway (pacchetto vetway-ui). Solo proprieta' custom, nessuna
+   regola: e' caricato PRIMA di vetway.css dal layout e da solo dalle pagine
+   di accesso (auth_base.html), che non usano vetway.css ma devono poter
+   leggere gli stessi colori. Dalla 0.2.0; prima il blocco stava in vetway.css.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Palette di default: petrol/teal Vetway. Stessi nomi di variabile
+     storici (--ovic-*) per non dover toccare i template che le usano —
+     cambia solo il valore. La variante OVIC (navy/oro) si attiva con
+     data-brand="osservatorio" sul <body>, vedi sotto. */
+  --ovic-blu:      #123c44;
+  --ovic-blu-dark: #08222a;
+  --ovic-oro:      #2f9da3;
+  --ovic-oro-lt:   #4bb8bd;
+  --ovic-oro-dark: #21787c;
+  --ovic-grigio:  #f5f6f8;
+  --ovic-bordo:   #dde2ea;
+  --ovic-testo:   #1e2a38;
+  --ovic-link:    #1a5fa8;
+}
+/* Variante OVIC (osservatorio): navy/oro. Gli stessi esadecimali che
+   Vetway usava nel blocco {% if esame.tipo_scheda == 'osservatorio' %}.
+   L'attributo sul body ha sempre la meglio su :root, a prescindere
+   dall'ordine, perche' le proprieta' custom si ereditano dal body in giu'. */
+body[data-brand="osservatorio"] {
+  --ovic-blu:      #1a3a5c;
+  --ovic-blu-dark: #0f2540;
+  --ovic-oro:      #c8952a;
+  --ovic-oro-lt:   #e8b84b;
+  --ovic-oro-dark: #a07820;
+}

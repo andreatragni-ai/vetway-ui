@@ -1,10 +1,19 @@
 {% comment %}
-Partial: _campo.html
+Partial: _campo.html — etichetta + valore in lettura.
 Uso: {% include "vetway_ui/partials/_campo.html" with label="Etichetta" val=valore multiline=True mono=True field_name="campo_db" %}
-field_name opzionale: aggiunge data-range-field, gancio per l'eventuale JS dell'ospite che colora il valore in base a un range
+Variabili:
+  label      — etichetta (HTML ammesso); la parte fra parentesi viene resa piu' piccola da vetway.js
+  val        — valore; vuoto o "–" mostra il segnaposto
+  decimals   — 0, 1 o altro numero (→ 2 decimali); assente = valore com'e'
+  multiline  — True: blocco a piu' righe (pre-wrap)
+  mono       — True: font monospazio
+  calc       — True: stile "valore calcolato" (.campo-calcolato)
+  field_name — facoltativo: aggiunge data-range-field, gancio per l'eventuale JS dell'ospite che colora il valore in base a un range
+  help_key   — facoltativo: icona (i) che chiama openHelpModal(help_key) dell'ospite; se la funzione non esiste non fa nulla
+  url        — facoltativo (dalla 0.2.0): il valore diventa un link a questo URL (non con multiline)
 {% endcomment %}
 <div class="mb-2">
-  <div class="campo-label">{{ label|safe }}{% if help_key %} <i class="bi bi-info-circle help-icon" style="cursor:pointer;color:#1a5fa8;font-size:0.8rem;vertical-align:middle;" onclick="openHelpModal('{{ help_key }}')"></i>{% endif %}</div>
+  <div class="campo-label">{{ label|safe }}{% if help_key %} <i class="bi bi-info-circle help-icon" style="cursor:pointer;color:#1a5fa8;font-size:0.8rem;vertical-align:middle;" onclick="if (typeof openHelpModal === 'function') openHelpModal('{{ help_key }}')"></i>{% endif %}</div>
   <div class="campo-valore {% if not val or val == '–' %}vuoto{% endif %} {% if calc %}campo-calcolato{% endif %}
                {% if mono %}font-monospace{% endif %}"
        {% if field_name %}data-range-field="{{ field_name }}"{% endif %}>
@@ -15,7 +24,7 @@ field_name opzionale: aggiunge data-range-field, gancio per l'eventuale JS dell'
         <span style="color:#ccc;">–</span>
       {% endif %}
     {% else %}
-      {% if val and decimals == 0 %}{{ val|floatformat:0 }}{% elif val and decimals == 1 %}{{ val|floatformat:1 }}{% elif val and decimals %}{{ val|floatformat:2 }}{% else %}{{ val|default:"–" }}{% endif %}
+      {% if url and val %}<a href="{{ url }}">{% endif %}{% if val and decimals == 0 %}{{ val|floatformat:0 }}{% elif val and decimals == 1 %}{{ val|floatformat:1 }}{% elif val and decimals %}{{ val|floatformat:2 }}{% else %}{{ val|default:"–" }}{% endif %}{% if url and val %}</a>{% endif %}
     {% endif %}
   </div>
 </div>

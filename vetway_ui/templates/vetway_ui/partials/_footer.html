@@ -1,11 +1,18 @@
 {% comment %}
 _footer.html — pie' di pagina.
-Variabili attese:
+Variabili attese (tutte facoltative):
   prodotto    — nome mostrato dopo "Powered by" (default "Vetway")
   privacy_url — URL dell'informativa privacy; se vuoto il link non compare
-Uso: {% include "vetway_ui/partials/_footer.html" with privacy_url=privacy_url prodotto="Vetway" %}
+  termini_url — URL dei termini del servizio (dalla 0.2.0): link "Termini del
+                servizio" accanto a Privacy; se vuoto non compare
+  footer_link — in alternativa o in aggiunta (dalla 0.2.0): lista di
+                {url, label}, un link per elemento, dopo i precedenti
+Senza termini_url/footer_link il markup e' identico a quello della 0.1.0.
+Uso: {% include "vetway_ui/partials/_footer.html" with privacy_url=privacy_url termini_url=termini_url prodotto="Vetway" %}
 {% endcomment %}
 <div class="ovic-footer">
   Powered by <strong style="color:rgba(255,255,255,0.8);">{{ prodotto|default:"Vetway" }}</strong> &nbsp;·&nbsp; Django + PostgreSQL
-  {% if privacy_url %}&nbsp;·&nbsp; <a href="{{ privacy_url }}" style="color:rgba(255,255,255,0.7);">Privacy &amp; cookie</a>{% endif %}
+  {% if privacy_url %}&nbsp;·&nbsp; <a href="{{ privacy_url }}" style="color:rgba(255,255,255,0.7);">Privacy &amp; cookie</a>{% endif %}{% if termini_url %}
+  &nbsp;·&nbsp; <a href="{{ termini_url }}" style="color:rgba(255,255,255,0.7);">Termini del servizio</a>{% endif %}{% for link in footer_link %}
+  &nbsp;·&nbsp; <a href="{{ link.url }}" style="color:rgba(255,255,255,0.7);">{{ link.label }}</a>{% endfor %}
 </div>

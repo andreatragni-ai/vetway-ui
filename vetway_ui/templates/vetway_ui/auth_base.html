@@ -3,7 +3,10 @@
 vetway_ui/auth_base.html — pagina "scheda centrata su fondo scuro" per login,
 reset password e simili (pacchetto vetway-ui).
 Blocchi: auth_title (titolo, seguito da " – Vetway"), auth_extra_head,
-         auth_content (il contenuto della scheda bianca .auth-box).
+         auth_messages (i messages di Django dentro .auth-box, vuoto se non ce
+         ne sono; sovrascrivibile), auth_content (il contenuto della scheda
+         bianca .auth-box), auth_extra_js (dopo genera_password.js).
+Le variabili --ovic-* sono disponibili (vetway-tokens.css), vetway.css no.
 Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
 .errorlist; .form-label/.form-control sono ridefiniti solo qui.
 {% endcomment %}
@@ -17,6 +20,7 @@ Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
   <meta name="theme-color" content="#08222a">
   <link href="{% static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
   <style>
     body {
       background: linear-gradient(135deg, #08222a 0%, #123c44 60%, #1c525c 100%);
@@ -44,7 +48,10 @@ Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
 </head>
 <body>
   <div class="auth-box">
+    {% block auth_messages %}{% for msg in messages %}<div class="alert alert-{{ msg.tags }} py-2 mb-3" role="alert" style="font-size:0.85rem;">{{ msg }}</div>{% endfor %}{% endblock %}
     {% block auth_content %}{% endblock %}
   </div>
+  <script src="{% static 'vetway_ui/js/genera_password.js' %}"></script>
+  {% block auth_extra_js %}{% endblock %}
 </body>
 </html>

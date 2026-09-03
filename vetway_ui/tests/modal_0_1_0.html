@@ -1,0 +1,50 @@
+
+<div class="modal fade" id="modalConfermaElimina" tabindex="-1"
+     aria-labelledby="modalConfermaEliminaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white py-2">
+        <h6 class="modal-title mb-0" id="modalConfermaEliminaLabel">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>Conferma eliminazione
+        </h6>
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal" aria-label="Chiudi"></button>
+      </div>
+      <div class="modal-body py-3">
+        <p class="mb-1 fw-semibold" id="modalEliminaTitolo"></p>
+        <p class="text-muted small mb-0" id="modalEliminaDettaglio"></p>
+      </div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-1"></i>Annulla
+        </button>
+        <form id="formModalElimina" method="POST" style="display:inline">
+          
+          <button type="submit" class="btn btn-danger btn-sm">
+            <i class="bi bi-trash me-1"></i>Sì, elimina
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  'use strict';
+  var el = document.getElementById('modalConfermaElimina');
+  if (!el) return;
+  el.addEventListener('show.bs.modal', function (event) {
+    var t = event.relatedTarget;
+    if (!t) return;
+    var href      = t.getAttribute('data-elimina-href')      || '#';
+    var titolo    = t.getAttribute('data-elimina-titolo')    || "Confermi l'eliminazione?";
+    var dettaglio = t.getAttribute('data-elimina-dettaglio') || '';
+    document.getElementById('formModalElimina').action = href;
+    document.getElementById('modalEliminaTitolo').textContent = titolo;
+    var d = document.getElementById('modalEliminaDettaglio');
+    d.textContent   = dettaglio;
+    d.style.display = dettaglio ? '' : 'none';
+  });
+})();
+</script>

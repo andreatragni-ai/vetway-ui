@@ -20,7 +20,7 @@ Blocchi, nell'ordine in cui compaiono:
   navbar       — barra di navigazione (vedi partials/_navbar.html per la cornice generica)
   content      — contenuto della pagina
   footer       — pie' di pagina (default: partials/_footer.html)
-  extra_js     — script della singola pagina, dopo bootstrap e vetway.js
+  extra_js     — script della singola pagina, dopo bootstrap, vetway.js e genera_password.js
   modal_import_pdf — mantenuto per compatibilita' con i template Vetway esistenti
   extra_body   — modali/partial dell'ospite prima di </body>
 
@@ -50,7 +50,8 @@ messages, user.is_authenticated.
   <!-- HTMX -->
   <script src="{% static 'vetway_ui/vendor/htmx/htmx.min.js' %}" defer></script>
 
-  <!-- Strato grafico condiviso (vetway-ui) -->
+  <!-- Strato grafico condiviso (vetway-ui): prima le variabili, poi le regole -->
+  <link href="{% static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
   <link href="{% static 'vetway_ui/css/vetway.css' %}" rel="stylesheet">
   {% block host_head %}{% endblock %}
 
@@ -88,6 +89,7 @@ messages, user.is_authenticated.
 
 <script src="{% static 'vetway_ui/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'vetway_ui/js/vetway.js' %}"></script>
+<script src="{% static 'vetway_ui/js/genera_password.js' %}"></script>
 {% block extra_js %}{% endblock %}
 {% block modal_import_pdf %}{% endblock %}
   {% include "vetway_ui/partials/_modal_conferma_elimina.html" %}

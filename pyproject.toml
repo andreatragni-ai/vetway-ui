@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vetway-ui"
-version = "0.1.0"
+version = "0.2.0"
 description = "Strato grafico condiviso delle applicazioni Vetway (CSS, JS, template base, partial, template tag)"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -12,5 +12,5 @@ license = {text = "Proprietary"}
 dependencies = ["Django>=5.1,<6"]
 
 [tool.setuptools]
-packages = ["vetway_ui", "vetway_ui.templatetags"]
+packages = ["vetway_ui", "vetway_ui.templatetags", "vetway_ui.tests"]
 include-package-data = true

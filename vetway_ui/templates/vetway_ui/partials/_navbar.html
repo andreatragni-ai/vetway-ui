@@ -3,27 +3,44 @@ _navbar.html — cornice generica della barra di navigazione: voci desktop
 (da md in su), hamburger + offcanvas sotto md, area utente con logout.
 Nessun link e' cablato qui: le voci arrivano dall'ospite via variabili.
 
-Variabili attese:
+Variabili attese (tutte facoltative; senza brand_* e senza figli il markup
+e' identico a quello della 0.1.0):
+  brand_url, brand_label, brand_img — marchio a sinistra dell'hamburger
+                  (dalla 0.2.0): link, testo e/o immagine (URL). Compare se
+                  c'e' almeno brand_label o brand_img.
   nav_voci      — lista di dict, una per voce:
                     url    — href
                     label  — testo
                     icona  — classe Bootstrap Icons senza "bi-" (es. "search"), facoltativa
                     attiva — True per evidenziare la voce corrente
                     title  — tooltip, facoltativo
-  nav_sezioni   — facoltativo, per l'offcanvas: lista di {label, voci} (stessa forma di
-                  nav_voci) mostrate sotto un'etichetta di sezione
+                    figli  — (dalla 0.2.0) lista di voci {url, label, icona, attiva, title}:
+                             a desktop la voce diventa un dropdown Bootstrap, nell'offcanvas
+                             un gruppo con etichetta di sezione (.nav-section-label) e le
+                             voci figlie sotto. La voce madre e' evidenziata se attiva lei
+                             o una figlia. Con figli, `url` della madre non serve.
   nav_menu_titolo — titolo dell'offcanvas (default "Menu")
   utente_label  — testo accanto all'icona utente (es. user.username)
   utente_url    — link del profilo utente, facoltativo
   utente_logo   — URL di un logo/avatar, facoltativo
   logout_url    — se valorizzato mostra il pulsante Logout (form POST con csrf)
 
-L'ospite che ha bisogno di dropdown o voci condizionate dai permessi
-sovrascrive direttamente il blocco `navbar` di vetway_ui/base.html con il
-proprio markup, riusando le stesse classi (.ovic-nav, .ovic-nav-hamburger,
-#navOffcanvas, .nav-section-label, .user-info).
+`nav_sezioni` della 0.1.0 e' stata tolta (nessun ospite la usava): faceva
+la stessa cosa dei figli ma solo nell'offcanvas, e a desktop le voci
+sarebbero mancate. Oggi una sezione = una voce con figli, in entrambi i casi.
+
+Nell'offcanvas l'ordine e': voci semplici, poi un gruppo per ogni voce con
+figli, nell'ordine di nav_voci.
+
+L'ospite che ha bisogno di piu' di questo sovrascrive direttamente il
+blocco `navbar` di vetway_ui/base.html con il proprio markup, riusando le
+stesse classi (.ovic-nav, .ovic-nav-brand, .ovic-nav-hamburger, #navOffcanvas,
+.nav-section-label, .user-info).
 {% endcomment %}
-<nav class="ovic-nav">
+<nav class="ovic-nav">{% if brand_label or brand_img %}
+  <a href="{{ brand_url|default:'/' }}" class="ovic-nav-brand" title="{{ brand_label }}">
+    {% if brand_img %}<img src="{{ brand_img }}" alt="{{ brand_label|default:'logo' }}">{% endif %}{% if brand_label %}<span>{{ brand_label }}</span>{% endif %}
+  </a>{% endif %}
   <!-- Hamburger (solo <md) -->
   <button type="button" class="ovic-nav-hamburger d-md-none"
           data-bs-toggle="offcanvas" data-bs-target="#navOffcanvas" aria-controls="navOffcanvas"
@@ -32,10 +49,21 @@ proprio markup, riusando le stesse classi (.ovic-nav, .ovic-nav-hamburger,
   </button>
   <!-- Voci nav desktop (>=md) -->
   <div class="d-none d-md-flex align-items-center">
-    {% for voce in nav_voci %}
+    {% for voce in nav_voci %}{% if voce.figli %}
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle {% if voce.attiva %}active{% else %}{% for f in voce.figli %}{% if f.attiva %}active{% endif %}{% endfor %}{% endif %}"
+         role="button" data-bs-toggle="dropdown" aria-expanded="false"{% if voce.title %} title="{{ voce.title }}"{% endif %}>
+        {% if voce.icona %}<i class="bi bi-{{ voce.icona }} me-1"></i>{% endif %}{{ voce.label }}
+      </a>
+      <ul class="dropdown-menu">
+        {% for f in voce.figli %}
+        <li><a class="dropdown-item{% if f.attiva %} active{% endif %}" href="{{ f.url }}"{% if f.title %} title="{{ f.title }}"{% endif %}>{% if f.icona %}<i class="bi bi-{{ f.icona }} me-2"></i>{% endif %}{{ f.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>{% else %}
     <a href="{{ voce.url }}" class="{% if voce.attiva %}active{% endif %}"{% if voce.title %} title="{{ voce.title }}"{% endif %}>
       {% if voce.icona %}<i class="bi bi-{{ voce.icona }} me-1"></i>{% endif %}{{ voce.label }}
-    </a>
+    </a>{% endif %}
     {% endfor %}
   </div>
   <!-- Area utente: sempre visibile, logout in form -->
@@ -82,17 +110,16 @@ proprio markup, riusando le stesse classi (.ovic-nav, .ovic-nav-hamburger,
     </a>
     {% endif %}
     <div class="list-group list-group-flush">
-      {% for voce in nav_voci %}
+      {% for voce in nav_voci %}{% if not voce.figli %}
       <a href="{{ voce.url }}" class="list-group-item list-group-item-action {% if voce.attiva %}active{% endif %}">{% if voce.icona %}<i class="bi bi-{{ voce.icona }}"></i>{% endif %}{{ voce.label }}</a>
-      {% endfor %}
+      {% endif %}{% endfor %}
     </div>
-    {% for sezione in nav_sezioni %}
-    <div class="nav-section-label">{{ sezione.label }}</div>
+    {% for voce in nav_voci %}{% if voce.figli %}
+    <div class="nav-section-label">{{ voce.label }}</div>
     <div class="list-group list-group-flush">
-      {% for voce in sezione.voci %}
-      <a href="{{ voce.url }}" class="list-group-item list-group-item-action {% if voce.attiva %}active{% endif %}">{% if voce.icona %}<i class="bi bi-{{ voce.icona }}"></i>{% endif %}{{ voce.label }}</a>
+      {% for f in voce.figli %}
+      <a href="{{ f.url }}" class="list-group-item list-group-item-action {% if f.attiva %}active{% endif %}">{% if f.icona %}<i class="bi bi-{{ f.icona }}"></i>{% endif %}{{ f.label }}</a>
       {% endfor %}
-    </div>
-    {% endfor %}
+    </div>{% endif %}{% endfor %}
   </div>
 </div>

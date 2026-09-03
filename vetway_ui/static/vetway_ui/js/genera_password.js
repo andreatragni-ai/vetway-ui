@@ -11,11 +11,18 @@
  * parole sono sorteggiate, quindi non somiglia mai a nome utente o email.
  *
  * Uso nei template:
- *   {% include "cardio/_genera_password.html" with campo="id_password" %}
- *   {% include "cardio/_genera_password.html" with campo="id_pw_nuova" conferma="id_pw_conf" %}
+ *   {% include "vetway_ui/partials/_genera_password.html" with campo="id_password" %}
+ *   {% include "vetway_ui/partials/_genera_password.html" with campo="id_pw_nuova" conferma="id_pw_conf" %}
+ *
+ * Dalla 0.2.0 lo caricano una volta sola vetway_ui/base.html e auth_base.html
+ * (non piu' il partial a ogni include): aggancia TUTTI i blocchi
+ * [data-genera-password] della pagina. La guardia qui sotto lo rende inerte
+ * se un layout proprio lo carica una seconda volta.
  */
 (function () {
   'use strict';
+  if (window.__vw_genera_password) return;
+  window.__vw_genera_password = true;
 
   // Sostantivi comuni, senza accenti e senza coppie che si confondono al
   // telefono (niente "pesca/pesce"). Corti, cosi' la password resta scrivibile.
@@ -65,8 +72,8 @@
   }
 
   function collega(blocco) {
-    // Il partial porta con se' il <script>: se finisse due volte nella stessa
-    // pagina, senza questa guardia ogni clic genererebbe due password.
+    // Guardia per blocco: se lo script venisse eseguito due volte (layout
+    // proprio + partial vecchio), ogni clic genererebbe due password.
     if (blocco.dataset.collegato === '1') return;
     blocco.dataset.collegato = '1';
 

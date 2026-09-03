@@ -2,6 +2,13 @@
    _modal_conferma_elimina.html — incluso da vetway_ui/base.html prima di </body>
    Trigger: data-bs-toggle="modal" data-bs-target="#modalConfermaElimina"
             data-elimina-href="URL" data-elimina-titolo="..." data-elimina-dettaglio="..."
+   Facoltativi (dalla 0.2.0), con i default della 0.1.0 se assenti:
+            data-elimina-intestazione="Conferma eliminazione"   titolo della testata
+            data-elimina-azione="Sì, elimina"                    testo del bottone che conferma
+            data-elimina-tono="danger"                           danger | warning | primary:
+                                                                 colore di testata, bordo e bottone
+            data-elimina-icona="trash"                           icona Bootstrap del bottone (senza "bi-")
+   Il form della modale fa POST (con csrf) su data-elimina-href.
 {% endcomment %}
 <div class="modal fade" id="modalConfermaElimina" tabindex="-1"
      aria-labelledby="modalConfermaEliminaLabel" aria-hidden="true">
@@ -38,17 +45,53 @@
   'use strict';
   var el = document.getElementById('modalConfermaElimina');
   if (!el) return;
+  var TONI = ['danger', 'warning', 'primary'];
+  var contenuto = el.querySelector('.modal-content');
+  var testata = el.querySelector('.modal-header');
+  var chiudi = testata.querySelector('.btn-close');
+  var titolo = document.getElementById('modalConfermaEliminaLabel');
+  var btn = el.querySelector('#formModalElimina button[type="submit"]');
+  var icona = btn.querySelector('i');
+
+  // Il testo di testata e bottone e' l'ultimo nodo di testo (dopo l'icona):
+  // si sostituisce quello, senza aggiungere elementi al markup di default.
+  function testo(nodo, valore) {
+    var t = nodo.lastChild;
+    if (!t || t.nodeType !== 3) { t = document.createTextNode(''); nodo.appendChild(t); }
+    t.textContent = valore;
+  }
+  function tono(nome) {
+    if (TONI.indexOf(nome) === -1) nome = 'danger';
+    TONI.forEach(function (t) {
+      contenuto.classList.remove('border-' + t);
+      testata.classList.remove('bg-' + t);
+      btn.classList.remove('btn-' + t);
+    });
+    contenuto.classList.add('border-' + nome);
+    testata.classList.add('bg-' + nome);
+    btn.classList.add('btn-' + nome);
+    // Su fondo giallo il testo e la X vanno scuri, come fa Bootstrap con .btn-warning.
+    var chiaro = nome !== 'warning';
+    testata.classList.toggle('text-white', chiaro);
+    testata.classList.toggle('text-dark', !chiaro);
+    chiudi.classList.toggle('btn-close-white', chiaro);
+  }
+
   el.addEventListener('show.bs.modal', function (event) {
     var t = event.relatedTarget;
     if (!t) return;
     var href      = t.getAttribute('data-elimina-href')      || '#';
-    var titolo    = t.getAttribute('data-elimina-titolo')    || "Confermi l'eliminazione?";
+    var titoloTxt = t.getAttribute('data-elimina-titolo')    || "Confermi l'eliminazione?";
     var dettaglio = t.getAttribute('data-elimina-dettaglio') || '';
     document.getElementById('formModalElimina').action = href;
-    document.getElementById('modalEliminaTitolo').textContent = titolo;
+    document.getElementById('modalEliminaTitolo').textContent = titoloTxt;
     var d = document.getElementById('modalEliminaDettaglio');
     d.textContent   = dettaglio;
     d.style.display = dettaglio ? '' : 'none';
+    testo(titolo, t.getAttribute('data-elimina-intestazione') || 'Conferma eliminazione');
+    testo(btn, t.getAttribute('data-elimina-azione') || 'Sì, elimina');
+    icona.className = 'bi bi-' + (t.getAttribute('data-elimina-icona') || 'trash') + ' me-1';
+    tono(t.getAttribute('data-elimina-tono') || 'danger');
   });
 })();
 </script>
