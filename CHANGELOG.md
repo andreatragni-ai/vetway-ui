@@ -4,6 +4,21 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.3.1 — 2026-09-12
+
+Correzione della 0.2.1: l'aria nel menu laterale non arrivava al tema
+predefinito di Vetway.
+
+- **`body[data-tema="originale"]`** ripete i margini della regola generica
+  (`margin: 22px 6px 7px`, `padding: 7px 12px 6px`, piu' il `:first-of-type`
+  a 12px). Quel blocco ha specificita' maggiore, quindi vinceva col vecchio
+  `margin: 10px 6px 0` e con le etichette a blocco pieno i quattro gruppi
+  restavano attaccati come prima: l'aria si vedeva solo sulle voci.
+- **Etichette di gruppo a 800** e non 700: e' il peso della variante
+  approvata. Torna come nella 0.2.0.
+- Tolta la nota di deprecazione su `data-tema="originale"`: non e' un
+  residuo, e' il tema predefinito (vedi migrazione `cardio` 0154).
+
 ## 0.3.0 — 2026-09-12
 
 Il primo carattere dichiarato dello strato grafico. **Cambia l'aspetto di

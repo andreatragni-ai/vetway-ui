@@ -317,15 +317,18 @@ table td, table th, input, .form-control, .form-select {
   display: block; height: 100%; background: #2e7d32; border-radius: 2px;
 }
 
-/* Tema "originale": stessi colori del classico ma con lo stile precedente
-   alla rail quieta — etichette a blocco pieno e voce attiva a fondo pieno.
-   DEPRECATO dal 2026-09-12: Vetway ha tolto 'originale' dalle scelte del
-   profilo (migrazione cardio 0153, chi ce l'aveva e' passato a 'classico').
-   Le regole restano finche' nessun ambiente in linea le usa piu', come per
-   .sidebar-mobile-toggle. */
+/* Tema "originale": etichette a blocco pieno e voce attiva a fondo pieno.
+   E' il tema predefinito di Vetway, non un residuo: le bande colorate dei
+   quattro gruppi sono un riferimento visivo durante la visita.
+   I margini qui ripetono l'aria della regola generica: senza, il blocco
+   pieno vincerebbe per specificita' e i gruppi resterebbero a 10px uno
+   dall'altro, cioe' attaccati come prima. */
 body[data-tema="originale"] .ovic-sidebar-nav .sidebar-group-label {
   color: #fff; background: var(--gc);
-  margin: 10px 6px 0; border-radius: 4px; padding: 6px 12px 4px;
+  margin: 22px 6px 7px; border-radius: 4px; padding: 7px 12px 6px;
+}
+body[data-tema="originale"] .ovic-sidebar-nav .sidebar-group-label:first-of-type {
+  margin-top: 12px;
 }
 body[data-tema="originale"] .ovic-sidebar-nav .sidebar-group-label::before { display: none; }
 body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active {
@@ -337,7 +340,7 @@ body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.vu
 .ovic-sidebar-nav .sidebar-group-label {
   display: flex; align-items: center; gap: 7px;
   font-size: 0.66rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.09em;
   color: #5b6875;
