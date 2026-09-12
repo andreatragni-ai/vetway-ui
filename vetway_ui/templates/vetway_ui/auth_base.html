@@ -1,4 +1,4 @@
-{% load static %}<!DOCTYPE html>
+{% load static vetway_ui %}<!DOCTYPE html>
 {% comment %}
 vetway_ui/auth_base.html — pagina "scheda centrata su fondo scuro" per login,
 reset password e simili (pacchetto vetway-ui).
@@ -18,10 +18,10 @@ Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'vetway_ui/img/favicon-32.png' %}?v=6">
   <link rel="shortcut icon" href="{% static 'vetway_ui/img/favicon.ico' %}?v=6">
   <meta name="theme-color" content="#08222a">
-  <link href="{% static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'vetway_ui/vendor/ibm-plex/ibm-plex.css' %}" rel="stylesheet">
-  <link href="{% static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/vendor/ibm-plex/ibm-plex.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
   <style>
     body {
       background: linear-gradient(135deg, #08222a 0%, #123c44 60%, #1c525c 100%);
@@ -52,7 +52,7 @@ Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
     {% block auth_messages %}{% for msg in messages %}<div class="alert alert-{{ msg.tags }} py-2 mb-3" role="alert" style="font-size:0.85rem;">{{ msg }}</div>{% endfor %}{% endblock %}
     {% block auth_content %}{% endblock %}
   </div>
-  <script src="{% static 'vetway_ui/js/genera_password.js' %}"></script>
+  <script src="{% vw_static 'vetway_ui/js/genera_password.js' %}"></script>
   {% block auth_extra_js %}{% endblock %}
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static vetway_ui %}
 {% comment %}
 vetway_ui/base.html — layout base condiviso (pacchetto vetway-ui).
 Solo presentazione: nessun riferimento a modelli, view o URL dell'ospite.
@@ -43,18 +43,23 @@ messages, user.is_authenticated.
   <link rel="shortcut icon" href="{% static 'vetway_ui/img/favicon.ico' %}?v=6">
   <meta name="theme-color" content="{% block theme_color %}{% if body_brand == 'osservatorio' %}#0f2540{% else %}#08222a{% endif %}{% endblock %}">
 
+  {% comment %}
+    vw_static e non static: gli statici escono con una settimana di cache e
+    il nome del file non cambia mai, quindi dopo un deploy il browser
+    continuerebbe a servire la copia vecchia. Vedi templatetags/vetway_ui.py.
+  {% endcomment %}
   <!-- Bootstrap 5 (self-hosted: no CDN di terzi → nessun IP inviato fuori) -->
-  <link href="{% static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Bootstrap Icons -->
-  <link href="{% static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
   <!-- HTMX -->
-  <script src="{% static 'vetway_ui/vendor/htmx/htmx.min.js' %}" defer></script>
+  <script src="{% vw_static 'vetway_ui/vendor/htmx/htmx.min.js' %}" defer></script>
 
   <!-- Carattere servito in locale (vedi vendor/ibm-plex/ibm-plex.css) -->
-  <link href="{% static 'vetway_ui/vendor/ibm-plex/ibm-plex.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/vendor/ibm-plex/ibm-plex.css' %}" rel="stylesheet">
   <!-- Strato grafico condiviso (vetway-ui): prima le variabili, poi le regole -->
-  <link href="{% static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
-  <link href="{% static 'vetway_ui/css/vetway.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
+  <link href="{% vw_static 'vetway_ui/css/vetway.css' %}" rel="stylesheet">
   {% block host_head %}{% endblock %}
 
   {% block extra_head %}{% endblock %}
@@ -89,9 +94,9 @@ messages, user.is_authenticated.
 <!-- Footer -->
 {% block footer %}{% include "vetway_ui/partials/_footer.html" with privacy_url=privacy_url prodotto=prodotto %}{% endblock %}
 
-<script src="{% static 'vetway_ui/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'vetway_ui/js/vetway.js' %}"></script>
-<script src="{% static 'vetway_ui/js/genera_password.js' %}"></script>
+<script src="{% vw_static 'vetway_ui/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% vw_static 'vetway_ui/js/vetway.js' %}"></script>
+<script src="{% vw_static 'vetway_ui/js/genera_password.js' %}"></script>
 {% block extra_js %}{% endblock %}
 {% block modal_import_pdf %}{% endblock %}
   {% include "vetway_ui/partials/_modal_conferma_elimina.html" %}

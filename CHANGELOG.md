@@ -4,6 +4,27 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.4.0 — 2026-09-12
+
+Il deploy non bastava a far vedere una modifica grafica. Ora si'.
+
+- **`{% vw_static %}`** (nuovo, in `templatetags/vetway_ui.py`): come
+  `{% static %}` ma con `?v=<mtime del file>` attaccato. Gli statici escono
+  con `Cache-Control: max-age=604800` e il file si chiama `vetway.css` oggi
+  come una settimana fa: dopo un deploy il browser di chi usa l'app
+  continuava a servirsi la copia vecchia per giorni. E' successo davvero con
+  l'aria nel menu e il carattere nuovo, che sul server erano corretti e a
+  video non si vedevano. L'impronta e' il timestamp di modifica (`rsync -a`
+  lo conserva), calcolata una volta per processo; se il file non si trova si
+  torna alla URL nuda.
+- **`base.html` e `auth_base.html`** usano `vw_static` per CSS e JS
+  (`{% load static vetway_ui %}` in testa). Le favicon tengono il loro `?v=6`
+  scritto a mano: cambiano quasi mai e il numero e' gia' li'.
+- **Per gli ospiti**: conviene passare a `vw_static` anche i propri CSS
+  caricati in `host_head` — Vetway l'ha fatto per `cardio.css`. Chi non lo
+  fa non rompe niente, resta solo col problema di prima sui suoi file.
+- `__version__` diceva ancora 0.2.0: allineato.
+
 ## 0.3.1 — 2026-09-12
 
 Correzione della 0.2.1: l'aria nel menu laterale non arrivava al tema

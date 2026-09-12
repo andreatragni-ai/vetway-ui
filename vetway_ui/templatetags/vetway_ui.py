@@ -4,9 +4,44 @@ Copiati da cardio/templatetags/cardio_extras.py di Vetway (03/09/2026), che
 li conserva ancora: i template esistenti continuano a fare
 {% load cardio_extras %}; i nuovi progetti fanno {% load vetway_ui %}.
 """
+import os
+
 from django import template
+from django.contrib.staticfiles import finders
+from django.templatetags.static import static as _static_url
 
 register = template.Library()
+
+
+# Impronte gia' calcolate, per non fare uno stat a ogni riga di ogni pagina.
+# Il processo le tiene finche' vive: va bene perche' un file statico cambia
+# solo con un deploy, e il deploy riavvia gunicorn.
+_IMPRONTE = {}
+
+
+@register.simple_tag
+def vw_static(percorso):
+    """Come {% static %}, ma con `?v=<impronta>` attaccato.
+
+    Serve perche' gli statici escono con `Cache-Control: max-age=604800` e
+    i file non hanno un'impronta nel nome: si chiamano `vetway.css` oggi
+    come una settimana fa. Senza questo, dopo un deploy il browser di chi
+    usa l'app continua a servirsi la copia vecchia per giorni, e la
+    modifica appena messa in produzione non la vede nessuno. E' successo
+    davvero il 2026-09-12 con l'aria nel menu e il carattere nuovo.
+
+    L'impronta e' il timestamp di modifica del file: `rsync -a` lo conserva,
+    quindi cambia quando cambia il contenuto e non a ogni deploy. Se il file
+    non si trova si torna alla URL nuda, senza rompere la pagina.
+    """
+    url = _static_url(percorso)
+    if percorso not in _IMPRONTE:
+        try:
+            _IMPRONTE[percorso] = str(int(os.path.getmtime(finders.find(percorso))))
+        except (TypeError, OSError, ValueError):
+            _IMPRONTE[percorso] = ''
+    impronta = _IMPRONTE[percorso]
+    return '%s?v=%s' % (url, impronta) if impronta else url
 
 
 @register.filter
