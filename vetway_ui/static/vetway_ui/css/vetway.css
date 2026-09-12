@@ -283,13 +283,13 @@ table td, table th, input, .form-control, .form-select {
 
 /* ── Sidebar esame ("rail quieta": gruppi discreti, voci protagoniste) ── */
 .ovic-sidebar-nav {
-  width: 190px;
+  width: 214px;
   flex-shrink: 0;
   background: #f7f9fb;
   border-radius: 8px 0 0 8px;
   border: 1px solid var(--ovic-bordo);
   border-right: none;
-  padding: 10px 0 6px;
+  padding: 14px 0 12px;
   position: sticky;
   top: 10px;
   align-self: flex-start;
@@ -297,7 +297,7 @@ table td, table th, input, .form-control, .form-select {
   overflow-y: auto;
 }
 /* Avanzamento compilazione in testa alla sidebar */
-.sidebar-progress { padding: 0 14px 10px; border-bottom: 1px solid #e3e8ee; margin-bottom: 6px; }
+.sidebar-progress { padding: 0 16px 13px; border-bottom: 1px solid #e3e8ee; margin-bottom: 2px; }
 .sidebar-progress .prog-testo {
   display: flex; justify-content: space-between;
   font-size: 0.7rem; font-weight: 600; color: #5b6875;
@@ -310,7 +310,11 @@ table td, table th, input, .form-control, .form-select {
 }
 
 /* Tema "originale": stessi colori del classico ma con lo stile precedente
-   alla rail quieta — etichette a blocco pieno e voce attiva a fondo pieno. */
+   alla rail quieta — etichette a blocco pieno e voce attiva a fondo pieno.
+   DEPRECATO dal 2026-09-12: Vetway ha tolto 'originale' dalle scelte del
+   profilo (migrazione cardio 0153, chi ce l'aveva e' passato a 'classico').
+   Le regole restano finche' nessun ambiente in linea le usa piu', come per
+   .sidebar-mobile-toggle. */
 body[data-tema="originale"] .ovic-sidebar-nav .sidebar-group-label {
   color: #fff; background: var(--gc);
   margin: 10px 6px 0; border-radius: 4px; padding: 6px 12px 4px;
@@ -324,27 +328,26 @@ body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.ok
 body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.vuota { border-color: rgba(255,255,255,.75); }
 .ovic-sidebar-nav .sidebar-group-label {
   display: flex; align-items: center; gap: 7px;
-  font-size: 0.64rem;
-  font-weight: 800;
+  font-size: 0.66rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.09em;
   color: #5b6875;
-  padding: 9px 14px 3px;
+  padding: 0 16px 4px;
+  margin: 24px 0 2px;
 }
+.ovic-sidebar-nav .sidebar-group-label:first-of-type { margin-top: 12px; }
 .ovic-sidebar-nav .sidebar-group-label::before {
   content: ""; width: 8px; height: 8px; border-radius: 2px;
   background: var(--gc, #5b6875); flex: none;
-}
-.ovic-sidebar-nav .sidebar-group-label.diagnostica-group {
-  margin-top: 6px;
 }
 .ovic-sidebar-nav .sidebar-item {
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 30px;
-  padding: 5px 12px 5px 11px;
-  font-size: 0.8rem;
+  min-height: 38px;
+  padding: 9px 16px 9px 13px;
+  font-size: 0.84rem;
   font-weight: 500;
   color: #333;
   text-decoration: none;

@@ -4,6 +4,24 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.2.1 — 2026-09-12
+
+Solo spaziature del menu laterale della scheda esame (`.ovic-sidebar-nav`).
+Nessuna variabile nuova, nessun markup cambiato: chi non usa quella barra —
+oggi VetWay Consulti — non vede differenze.
+
+- **Menu laterale piu' arioso.** In 190px stavano 18 righe (13 sezioni, 4
+  etichette di gruppo, la barra di avanzamento) e fra l'ultima voce di un
+  gruppo e l'etichetta del gruppo dopo c'erano gli stessi 10px che separano
+  due voci dello stesso gruppo: i gruppi non si staccavano. Ora la barra e'
+  larga 214px, le voci sono alte 38px invece di 30 con il testo a 0,84rem
+  invece di 0,80, e le etichette di gruppo hanno 24px di stacco sopra
+  (12px la prima). La deroga `.diagnostica-group { margin-top: 6px }` e'
+  sparita: lo stacco e' uguale per tutti e quattro i gruppi.
+- **`body[data-tema="originale"]` deprecato.** Vetway ha tolto quel tema
+  dalle scelte del profilo (migrazione `cardio` 0153): le regole restano
+  qui finche' nessun ambiente in linea le usa, come `.sidebar-mobile-toggle`.
+
 ## 0.2.0 — 2026-09-03
 
 Lacune emerse collegando il secondo ospite (portale VetWay Consulti).
