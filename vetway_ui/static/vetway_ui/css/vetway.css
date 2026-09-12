@@ -8,6 +8,14 @@
 
 /* Le variabili --ovic-* stanno in vetway-tokens.css (dalla 0.2.0), caricato prima di questo file. */
 
+/* ── Carattere ──
+   Detto anche qui e non solo via --bs-font-sans-serif: se un giorno
+   Bootstrap non ci fosse piu', o cambiasse il nome della sua variabile,
+   l'app non deve tornare allo stack di sistema in silenzio. */
+body {
+  font-family: var(--vw-font-sans);
+}
+
 /* ── Numeri tabellari ovunque: cifre a larghezza fissa nelle tabelle di
    parametri e negli input numerici, cosi' le colonne di misure si
    allineano e i confronti tra controlli si fanno a colpo d'occhio.

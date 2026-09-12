@@ -20,13 +20,14 @@ Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
   <meta name="theme-color" content="#08222a">
   <link href="{% static 'vetway_ui/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vetway_ui/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vetway_ui/vendor/ibm-plex/ibm-plex.css' %}" rel="stylesheet">
   <link href="{% static 'vetway_ui/css/vetway-tokens.css' %}" rel="stylesheet">
   <style>
     body {
       background: linear-gradient(135deg, #08222a 0%, #123c44 60%, #1c525c 100%);
       min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      font-family: 'Segoe UI', system-ui, sans-serif; padding: 1rem;
+      font-family: var(--vw-font-sans); padding: 1rem;
     }
     .auth-box { background: white; border-radius: 10px; padding: 2.2rem 2.2rem 1.8rem;
       width: 380px; max-width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }

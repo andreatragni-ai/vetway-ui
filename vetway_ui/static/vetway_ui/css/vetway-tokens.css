@@ -20,6 +20,17 @@
   --ovic-bordo:   #dde2ea;
   --ovic-testo:   #1e2a38;
   --ovic-link:    #1a5fa8;
+
+  /* Carattere (dalla 0.3.0). Prima non c'era: l'app girava sullo stack di
+     sistema di Bootstrap, cioe' su una scelta di nessuno, e cambiava faccia
+     fra Mac, Windows e Android. IBM Plex Sans e' disegnato per contesti
+     tecnici e ha cifre solide, che qui contano piu' della personalita'.
+     Servito in locale da vendor/ibm-plex/, licenza OFL.
+     Ridefinire --bs-font-sans-serif basta a spostare anche Bootstrap: il
+     suo --bs-body-font-family ci punta, e i campi e i bottoni ereditano. */
+  --vw-font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI',
+                  Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --bs-font-sans-serif: var(--vw-font-sans);
 }
 /* Variante OVIC (osservatorio): navy/oro. Gli stessi esadecimali che
    Vetway usava nel blocco {% if esame.tipo_scheda == 'osservatorio' %}.

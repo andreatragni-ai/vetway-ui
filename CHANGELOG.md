@@ -4,6 +4,30 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.3.0 — 2026-09-12
+
+Il primo carattere dichiarato dello strato grafico. **Cambia l'aspetto di
+tutti e due gli ospiti**, Consulti compreso: e' l'unica modifica finora che
+non si puo' non vedere.
+
+- **IBM Plex Sans**, servito in locale da `vendor/ibm-plex/` come Bootstrap
+  e le icone: nessun CDN, nessun IP mandato fuori. Due file soli e non otto,
+  perche' sono font variabili — un file per sottoinsieme copre i pesi da 100
+  a 700: `latin` 40 KB, `latin-ext` 26 KB. Licenza OFL 1.1, testo in
+  `vendor/ibm-plex/OFL.txt`.
+- **`--vw-font-sans`** in `vetway-tokens.css`, e `--bs-font-sans-serif`
+  ridefinita sullo stesso valore: Bootstrap ci punta con
+  `--bs-body-font-family`, e campi e bottoni ereditano, quindi non serve
+  inseguire i componenti uno per uno. `vetway.css` lo ripete su `body` per
+  non dipendere dalla presenza di Bootstrap.
+- **`base.html` e `auth_base.html`** caricano `vendor/ibm-plex/ibm-plex.css`
+  prima dei token. In `auth_base.html` lo stack scritto a mano
+  (`'Segoe UI', system-ui, sans-serif`) diventa `var(--vw-font-sans)`.
+- **Pesi**: IBM Plex Sans arriva a 700. Le regole a 800 e 900 che esistono
+  negli ospiti (in Vetway il numero grande del controllo, alcune etichette)
+  cadono sul 700 e risultano un filo meno marcate. Voluto, non un errore di
+  caricamento: rimappare quelle dichiarazioni e' lavoro dell'ospite.
+
 ## 0.2.1 — 2026-09-12
 
 Solo spaziature del menu laterale della scheda esame (`.ovic-sidebar-nav`).
