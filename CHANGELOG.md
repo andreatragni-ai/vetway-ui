@@ -4,6 +4,21 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.4.1 — 2026-09-15
+
+Correzione in `vetway.js`: l'etichetta con l'icona di aiuto si rompeva.
+
+- **Unita' tra parentesi nelle `.campo-label`**: la regex girava su
+  `innerHTML` e prendeva la prima parentesi che trovava, anche dentro un
+  attributo. In un'etichetta senza unita' ma con l'icona di aiuto
+  (`onclick="openHelpModal('fs')"`) spezzava l'attributo: a video usciva
+  `('FS')">` accanto all'etichetta e il clic sull'icona non apriva piu'
+  niente (visto su Vetway, "MFS %" nel tab M-Mode). Ora lavora solo sui nodi
+  di testo.
+- **Cosa resta invariato**: stessa regola (la prima parentesi del testo),
+  stesso markup risultante `<span class="campo-label-unit">(…)</span>` per
+  le etichette che funzionavano gia'. Nessun template o CSS toccato.
+
 ## 0.4.0 — 2026-09-12
 
 Il deploy non bastava a far vedere una modifica grafica. Ora si'.

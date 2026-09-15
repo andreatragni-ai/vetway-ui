@@ -4,7 +4,8 @@
    1. conto alla rovescia della sessione (#sessione-bar / #sessione-countdown);
       la durata in minuti arriva da data-sessione-minuti sul <body>;
    2. spinner globale HTMX (#global-spinner);
-   3. unita' di misura fra parentesi nelle .campo-label resa piu' piccola. */
+   3. unita' di misura fra parentesi nelle .campo-label resa piu' piccola
+      (solo nel testo, non negli attributi). */
 
 (function () {
   var MINUTI = parseInt(document.body.getAttribute('data-sessione-minuti'), 10) || 300;
@@ -63,9 +64,28 @@ document.addEventListener('htmx:afterRequest', function() {
   if (sp) sp.style.display = 'none';
 });
 
-// Riduce visivamente la parte tra parentesi nelle .campo-label (es. unita di misura)
+// Riduce visivamente la parte tra parentesi nelle .campo-label (es. unita di misura).
+// Solo sul testo, mai sull'HTML: prima la regex girava su innerHTML e prendeva
+// la prima parentesi che trovava, anche dentro un attributo. In un'etichetta
+// senza unita' ma con l'icona di aiuto (`onclick="openHelpModal('fs')"`)
+// spezzava l'attributo: a video usciva `('FS')">` e il clic non funzionava
+// piu' (0.4.1). Resta la prima parentesi del testo, come prima.
 document.addEventListener('DOMContentLoaded', function() {
+  var PARENTESI = /\s*\(([^)]+)\)/;
   document.querySelectorAll('.campo-label').forEach(function(el) {
-    el.innerHTML = el.innerHTML.replace(/\s*\(([^)]+)\)/, ' <span class="campo-label-unit">($1)</span>');
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var nodo;
+    while ((nodo = walker.nextNode())) {
+      var m = PARENTESI.exec(nodo.nodeValue);
+      if (!m) continue;
+      var span = document.createElement('span');
+      span.className = 'campo-label-unit';
+      span.textContent = '(' + m[1] + ')';
+      var dopo = nodo.splitText(m.index);
+      dopo.nodeValue = dopo.nodeValue.slice(m[0].length);
+      nodo.nodeValue += ' ';
+      nodo.parentNode.insertBefore(span, dopo);
+      break;
+    }
   });
 });
