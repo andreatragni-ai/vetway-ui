@@ -8,7 +8,8 @@ Blocchi: auth_title (titolo, seguito da " – Vetway"), auth_extra_head,
          bianca .auth-box), auth_extra_js (dopo genera_password.js).
 Le variabili --ovic-* sono disponibili (vetway-tokens.css), vetway.css no.
 Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
-.errorlist; .form-label/.form-control sono ridefiniti solo qui.
+.auth-azioni (riga di link con bersagli da 44 px), .errorlist;
+.form-label/.form-control sono ridefiniti solo qui.
 {% endcomment %}
 <html lang="it">
 <head>
@@ -41,8 +42,19 @@ Classi disponibili: .auth-box, .auth-head (.ico, h2, p), .btn-auth, .auth-link,
     .btn-auth { background: #123c44; color: white; font-weight: 700; width: 100%;
       padding: 10px; border: none; border-radius: 5px; font-size: 0.9rem; letter-spacing: .05em; transition: background .2s; }
     .btn-auth:hover { background: #08222a; color: white; }
-    .auth-link { font-size: 0.82rem; color: #1a5fa8; text-decoration: none; }
+    /* Bersaglio da dito (0.4.2). Prima era testo alto 17 px: su iPhone il
+       tocco cadeva fra due link e non apriva niente (VetWay Consulti,
+       24/09/2026: nel log di nginx nemmeno una richiesta). Il padding
+       allarga l'area sensibile e il margine negativo lo annulla nel
+       layout, cosi' la pagina resta identica a prima. */
+    .auth-link { font-size: 0.82rem; color: #1a5fa8; text-decoration: none;
+      display: inline-block; padding: .45rem .55rem; margin: -.45rem -.55rem; }
     .auth-link:hover { text-decoration: underline; }
+    /* Riga di link come azioni (facoltativa): bersagli pieni da 44 px, il
+       minimo di Apple e delle WCAG. Chi non la usa non vede cambiare nulla. */
+    .auth-azioni { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .1rem; }
+    .auth-azioni .auth-link { display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0 .7rem; margin: 0; }
     .errorlist { color: #c0392b; font-size: 0.8rem; list-style: none; padding-left: 0; margin: .3rem 0; }
   </style>
   {% block auth_extra_head %}{% endblock %}

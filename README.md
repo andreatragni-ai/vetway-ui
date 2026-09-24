@@ -156,8 +156,19 @@ Blocchi: `auth_title` (seguito da " – Vetway"), `auth_extra_head`,
 per messaggio; vuoto se non ce ne sono, sovrascrivibile), `auth_content`
 (dentro `.auth-box`), `auth_extra_js` (dopo `genera_password.js`).
 Classi: `.auth-head` (`.ico`, `h2`, `p`), `.btn-auth`, `.auth-link`,
-`.errorlist`. Le variabili `--ovic-*` sono disponibili (`vetway-tokens.css`);
-`vetway.css` no.
+`.auth-azioni`, `.errorlist`. Le variabili `--ovic-*` sono disponibili
+(`vetway-tokens.css`); `vetway.css` no.
+
+`.auth-azioni` (0.4.2) e' il contenitore di una riga di link-azione: dentro,
+ogni `.auth-link` diventa un bersaglio da 44 px, il minimo per un dito.
+Usarla dove i link stanno da soli su una riga («Password dimenticata? ·
+Registrati», «Torna al login»), non per un link dentro una frase.
+
+    <div class="auth-azioni">
+      <a class="auth-link" href="...">Password dimenticata?</a>
+      <span class="text-muted">·</span>
+      <a class="auth-link" href="...">Registrati</a>
+    </div>
 
 ## Partial
 

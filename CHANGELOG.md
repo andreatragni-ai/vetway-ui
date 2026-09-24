@@ -4,6 +4,26 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.4.2 — 2026-09-24
+
+Pagine di accesso: i link si riescono a toccare con un dito.
+
+- **`.auth-link`**: era testo alto 17 px. Su iPhone, con due link appaiati
+  («Password dimenticata? · Registrati» in VetWay Consulti), il tocco cadeva
+  nel vuoto: nel log di nginx non arrivava nemmeno una richiesta. Ora ha un
+  padding che allarga l'area sensibile, annullato da un margine negativo
+  uguale e contrario: **la pagina resta identica pixel per pixel**, ma il
+  bersaglio passa da 17 a ~33 px di altezza. Vale anche per i link di
+  VetWay («Torna al login», «Richiedi un nuovo link») senza toccarne i
+  template.
+- **`.auth-azioni` (nuova, facoltativa)**: riga di link come azioni, con
+  bersagli pieni da 44 px — il minimo di Apple e delle WCAG — e spazio fra
+  l'uno e l'altro. Si mette sul contenitore dei link:
+  `<div class="auth-azioni">…</div>`.
+- **Cosa resta invariato**: nessun markup cambiato nel pacchetto, nessuna
+  variabile nuova obbligatoria. Chi non usa `.auth-azioni` vede le stesse
+  pagine di prima.
+
 ## 0.4.1 — 2026-09-15
 
 Correzione in `vetway.js`: l'etichetta con l'icona di aiuto si rompeva.
