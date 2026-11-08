@@ -715,14 +715,18 @@ body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.vu
    usano solo le variabili --ovic-*, mai esadecimali di marchio.
 
    Senza l'attributo non cambia niente: e' tutto dentro il selettore.
-   Nasce come ponte, per provare sul campo un'impaginazione piu' leggera
-   senza imporla a nessuno. Se vince diventa il default e questo blocco
-   sparisce; se perde sparisce lo stesso. Non deve restare per sempre.
 
-   Qui c'e' SOLO cio' che si ottiene con il CSS a markup invariato. La
-   testata in una riga sola, la striscia dei valori in M-Mode e la barra di
-   posizione nel range sono cambi di markup: vanno decisi una volta, non
-   messi dietro un interruttore.
+   Qui c'e' SOLO cio' che si ottiene con il CSS **a markup invariato**, e
+   non e' una limitazione: e' la condizione che rende il tema sostenibile.
+   Un tema che cambia la struttura obbliga a guardare ogni schermata nuova
+   una volta per tema, perche' puo' essere giusta in uno e rotta
+   nell'altro. Finche' a cambiare e' solo il CSS, un tema costa quanto una
+   palette — cioe' niente — e puo' restare per sempre.
+
+   Vale anche per l'ospite: la testata in una riga si ottiene tenendo nel
+   markup sia la banda sia il marchio nella barra, e lasciando al CSS la
+   scelta di quale mostrare (in Vetway: cardio.css). Il giorno che un tema
+   chiedesse markup suo, il costo tornerebbe e converrebbe sceglierne uno.
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* Il primario passa all'accento: nel compatto le testate sono chiare e il

@@ -45,21 +45,22 @@ per l'aspetto.
   importante). Quest'ultima regola regge **solo** finche' gli ospiti non
   riscrivono il colore in linea: se una patch rientra, sulla stessa
   schermata tornano due "Salva" di colore diverso.
-  Nel compatto la **navbar fa da testata**: l'ospite non disegna piu' la
-  banda del marchio sopra e mette il marchio nello slot `.ovic-nav-brand`
-  (che esiste dalla 0.2.0). Il pacchetto ci mette l'allineamento — marchio e
-  voci appaiati a sinistra, area utente a destra, che `space-between` da
-  sola non fa con tre blocchi — e **sotto lg lascia il solo simbolo**:
-  misurato su iPad in verticale (820 px) la barra era gia' piena, e simbolo
-  piu' nome occupano 102 px contro i 26 del simbolo. Senza questa regola le
-  voci non andavano a capo (`.ovic-nav` ha altezza fissa) ma venivano
-  tagliate a meta' parola. Nasce come **ponte**: serve a
-  provare sul campo un'impaginazione piu' leggera senza imporla a nessuno.
-  Se vince diventa il default e il blocco sparisce; se perde sparisce lo
-  stesso. Contiene **solo cio' che si ottiene a markup invariato** — testata
-  in una riga sola, striscia dei valori e barra di posizione nel range sono
-  cambi di markup, e vanno decisi una volta sola, non messi dietro un
-  interruttore.
+  Nel compatto la **navbar fa da testata**: l'ospite tiene nel markup sia la
+  banda del marchio sia il marchio nello slot `.ovic-nav-brand` (che esiste
+  dalla 0.2.0) e lascia al CSS la scelta di quale mostrare. Il pacchetto ci
+  mette l'allineamento — marchio e voci appaiati a sinistra, area utente a
+  destra, che `space-between` da sola non fa con tre blocchi — e **sotto lg
+  lascia il solo simbolo**: misurato su iPad in verticale (820 px) la barra
+  era gia' piena, e simbolo piu' nome occupano 102 px contro i 26 del
+  simbolo. Senza questa regola le voci non andavano a capo (`.ovic-nav` ha
+  altezza fissa) ma venivano tagliate a meta' parola.
+
+  Il blocco contiene **solo cio' che si ottiene a markup invariato**, e non
+  e' una limitazione: e' la condizione che rende un tema sostenibile. Un
+  tema che cambia la struttura obbliga a guardare ogni schermata nuova una
+  volta per tema, perche' puo' essere giusta in uno e rotta nell'altro;
+  finche' a cambiare e' solo il CSS, un tema costa quanto una palette e puo'
+  restare per sempre.
 - **`nascondi_tecnologia` nel footer**: toglie "Django + PostgreSQL". Lo
   stack non e' affare di chi referta, e in una pagina che puo' vedere anche
   un cliente e' rumore. **Acceso per difetto**, perche' spegnerlo d'ufficio
