@@ -783,30 +783,3 @@ body[data-aspetto="compatto"] .ovic-card .card-header-ovic {
 body[data-aspetto="compatto"] .sezione-titolo {
   padding: 0 0 4px 0;
 }
-
-/* Marchio nella navbar: la barra diventa la testata.
-
-   Nel compatto l'ospite non disegna piu' la banda del marchio sopra la
-   navbar e mette il marchio dentro la navbar (slot .ovic-nav-brand, che
-   esiste dalla 0.2.0). Qui serve solo rimettere a posto l'allineamento:
-   .ovic-nav e' space-between, pensata per due estremita', e con tre blocchi
-   spingerebbe le voci al centro lasciando un vuoto fra il marchio e la
-   prima voce. Marchio e voci vanno appaiati a sinistra, l'area utente
-   all'estremita' destra.
-
-   Regola di cornice e non di contenuto: vale per la navbar del pacchetto e
-   per quella che un ospite si disegna da solo con le stesse classi (e'
-   il caso di Vetway, che ha voci di dominio). */
-body[data-aspetto="compatto"] .ovic-nav { justify-content: flex-start; }
-body[data-aspetto="compatto"] .ovic-nav .user-info { margin-left: auto; }
-
-/* Sotto lg resta il solo simbolo. Misurato su iPad in verticale (820 px):
-   la barra era gia' piena senza marchio, e simbolo piu' nome occupano
-   102 px. Il risultato non era un a capo — .ovic-nav ha un'altezza fissa di
-   42 px — ma le voci tagliate a meta' parola. Il simbolo da solo costa 26 px
-   e il nome lo dice comunque la pagina che si sta guardando.
-   Solo nel compatto: l'aspetto pieno non ha il marchio nella barra. */
-@media (max-width: 991.98px) {
-  body[data-aspetto="compatto"] .ovic-nav .ovic-nav-brand span { display: none; }
-  body[data-aspetto="compatto"] .ovic-nav .ovic-nav-brand { padding-right: 0.65rem; }
-}
