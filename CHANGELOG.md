@@ -44,8 +44,16 @@ per l'aspetto.
   il colore piu' pesante della pagina senza esserne l'elemento piu'
   importante). Quest'ultima regola regge **solo** finche' gli ospiti non
   riscrivono il colore in linea: se una patch rientra, sulla stessa
-  schermata tornano due "Salva" di colore diverso. Nasce come **ponte**:
-  serve a
+  schermata tornano due "Salva" di colore diverso.
+  Nel compatto la **navbar fa da testata**: l'ospite non disegna piu' la
+  banda del marchio sopra e mette il marchio nello slot `.ovic-nav-brand`
+  (che esiste dalla 0.2.0). Il pacchetto ci mette l'allineamento — marchio e
+  voci appaiati a sinistra, area utente a destra, che `space-between` da
+  sola non fa con tre blocchi — e **sotto lg lascia il solo simbolo**:
+  misurato su iPad in verticale (820 px) la barra era gia' piena, e simbolo
+  piu' nome occupano 102 px contro i 26 del simbolo. Senza questa regola le
+  voci non andavano a capo (`.ovic-nav` ha altezza fissa) ma venivano
+  tagliate a meta' parola. Nasce come **ponte**: serve a
   provare sul campo un'impaginazione piu' leggera senza imporla a nessuno.
   Se vince diventa il default e il blocco sparisce; se perde sparisce lo
   stesso. Contiene **solo cio' che si ottiene a markup invariato** — testata
