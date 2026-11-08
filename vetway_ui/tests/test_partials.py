@@ -41,6 +41,16 @@ class FooterTest(SimpleTestCase):
         self.assertNotIn('<a ', out)
         self.assertIn('Vetway', out)
 
+    def test_nascondi_tecnologia_toglie_lo_stack(self):
+        """Lo stack se ne va solo se qualcuno lo chiede: acceso per difetto,
+        altrimenti il piede di ogni ospite cambierebbe da solo."""
+        acceso = render_to_string('vetway_ui/partials/_footer.html', {})
+        spento = render_to_string('vetway_ui/partials/_footer.html',
+                                  {'nascondi_tecnologia': True})
+        self.assertIn('Django + PostgreSQL', acceso)
+        self.assertNotIn('Django + PostgreSQL', spento)
+        self.assertIn('Vetway', spento)
+
 
 class NavbarTest(SimpleTestCase):
     CTX = {'nav_voci': [{'url': '/a/', 'label': 'A', 'icona': 'search', 'attiva': True}, {'url': '/b/', 'label': 'B'}],
@@ -117,6 +127,22 @@ class AuthBaseTest(SimpleTestCase):
         self.assertIn('Fatto.', out)
         vuoto = render_to_string('vetway_ui/auth_base.html', {})
         self.assertNotIn('alert', vuoto)
+
+    def test_aspetto_assente_per_difetto_e_indipendente_dal_marchio(self):
+        """data-aspetto compare solo se l'ospite lo chiede, e convive con
+        data-brand: sono due assi (colori del marchio / peso degli elementi),
+        non due valori dello stesso."""
+        vuoto = render_to_string('vetway_ui/base.html', {})
+        self.assertNotIn('data-aspetto', vuoto)
+
+        solo = render_to_string('vetway_ui/base.html', {'body_aspetto': 'compatto'})
+        self.assertIn('data-aspetto="compatto"', solo)
+
+        insieme = render_to_string('vetway_ui/base.html',
+                                   {'body_aspetto': 'compatto',
+                                    'body_brand': 'osservatorio'})
+        self.assertIn('data-aspetto="compatto"', insieme)
+        self.assertIn('data-brand="osservatorio"', insieme)
 
     def test_base_carica_tokens_prima_di_vetway_css(self):
         out = render_to_string('vetway_ui/base.html', {})

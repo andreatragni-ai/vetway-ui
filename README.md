@@ -3,7 +3,7 @@
 Strato grafico condiviso delle applicazioni Vetway: CSS, JS di utilità,
 template base, partial generici e template tag. Un pacchetto Django
 installabile, usato da Vetway (`vetcardio`) e dal portale teleconsulto
-(`vetconsulti`). Versione corrente: **0.2.0** (vedi `CHANGELOG.md`).
+(`vetconsulti`). Versione corrente: **0.5.0** (vedi `CHANGELOG.md`).
 
 ## La regola
 

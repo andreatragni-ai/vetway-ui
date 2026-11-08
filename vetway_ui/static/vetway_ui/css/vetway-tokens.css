@@ -31,6 +31,14 @@
   --vw-font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI',
                   Roboto, 'Helvetica Neue', Arial, sans-serif;
   --bs-font-sans-serif: var(--vw-font-sans);
+
+  /* Testo a spaziatura fissa (dalla 0.5.0). Bootstrap serve <code> in rosa
+     (--bs-code-color: #d63384), un colore che nessuno ha scelto e che in
+     Vetway salta fuori di continuo, perche' gli ID OVIC e i codici
+     patologia sono marcati <code>: accanto al petrolio stona, e il rosa
+     nell'app non significa niente. Grigio ardesia: si legge come
+     "identificativo", non come allarme. */
+  --bs-code-color: #55606d;
 }
 /* Variante OVIC (osservatorio): navy/oro. Gli stessi esadecimali che
    Vetway usava nel blocco {% if esame.tipo_scheda == 'osservatorio' %}.

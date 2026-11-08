@@ -674,3 +674,101 @@ body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.vu
 .pill-stato--attesa { background: var(--bs-warning-bg-subtle); color: var(--bs-warning-text-emphasis); border-color: var(--bs-warning-border-subtle); }
 .pill-stato--chiusa { background: var(--bs-secondary-bg-subtle); color: var(--bs-secondary-text-emphasis); border-color: var(--bs-secondary-border-subtle); }
 .pill-stato--errore { background: var(--bs-danger-bg-subtle); color: var(--bs-danger-text-emphasis); border-color: var(--bs-danger-border-subtle); }
+
+/* ── Bottone primario: il colore del marchio, non il blu di Bootstrap ──
+   (dalla 0.5.0, vale in TUTTI gli aspetti: e' una correzione, non un gusto.)
+
+   Bootstrap 5.3 non ricava .btn-primary da --bs-primary: la classe si porta
+   dentro i propri --bs-btn-* gia' risolti a #0d6efd in fase di compilazione.
+   Ridefinire --bs-primary nei token quindi NON sposta il bottone — serve
+   riscrivere le sue variabili, che e' cio' che fa questo blocco.
+
+   Perche' --ovic-blu e non --ovic-oro: nei template di Vetway ci sono una
+   ottantina di `style="background:var(--ovic-blu)"` messi a mano proprio
+   sopra a .btn-primary, uno per uno, per rimediare al blu. Il colore giusto
+   era gia' stato scelto: qui si smette solo di riscriverlo a ogni occorrenza.
+   Dove la patch inline c'e' ancora non cambia niente (lo stile in linea
+   vince comunque); dove non c'era, il bottone smette di essere blu. Le
+   patch diventano ridondanti e si possono togliere senza fretta.
+
+   Non si tocca --bs-primary: cambierebbe anche .text-primary, .bg-primary,
+   i "subtle" delle .pill-stato e gli alert, cioe' schermate che nessuno ha
+   guardato. Una cosa alla volta. */
+.btn-primary {
+  --bs-btn-bg:                  var(--ovic-blu);
+  --bs-btn-border-color:        var(--ovic-blu);
+  --bs-btn-hover-bg:            var(--ovic-blu-dark);
+  --bs-btn-hover-border-color:  var(--ovic-blu-dark);
+  --bs-btn-active-bg:           var(--ovic-blu-dark);
+  --bs-btn-active-border-color: var(--ovic-blu-dark);
+  --bs-btn-disabled-bg:         var(--ovic-blu);
+  --bs-btn-disabled-border-color: var(--ovic-blu);
+  --bs-btn-focus-shadow-rgb: 47, 157, 163;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ASPETTO "COMPATTO" — data-aspetto="compatto" sul <body>  (dalla 0.5.0)
+
+   Secondo asse, indipendente da data-brand: il marchio decide i COLORI
+   (Vetway petrolio / OVIC navy), l'aspetto decide il PESO degli elementi.
+   Le due cose si combinano senza sapere l'una dell'altra, perche' qui si
+   usano solo le variabili --ovic-*, mai esadecimali di marchio.
+
+   Senza l'attributo non cambia niente: e' tutto dentro il selettore.
+   Nasce come ponte, per provare sul campo un'impaginazione piu' leggera
+   senza imporla a nessuno. Se vince diventa il default e questo blocco
+   sparisce; se perde sparisce lo stesso. Non deve restare per sempre.
+
+   Qui c'e' SOLO cio' che si ottiene con il CSS a markup invariato. La
+   testata in una riga sola, la striscia dei valori in M-Mode e la barra di
+   posizione nel range sono cambi di markup: vanno decisi una volta, non
+   messi dietro un interruttore.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Il primario passa all'accento: nel compatto la testata e' gia' petrolio,
+   e un bottone dello stesso colore ci si perderebbe dentro. */
+body[data-aspetto="compatto"] .btn-primary {
+  --bs-btn-bg:                  var(--ovic-oro);
+  --bs-btn-border-color:        var(--ovic-oro);
+  --bs-btn-hover-bg:            var(--ovic-oro-dark);
+  --bs-btn-hover-border-color:  var(--ovic-oro-dark);
+  --bs-btn-active-bg:           var(--ovic-oro-dark);
+  --bs-btn-active-border-color: var(--ovic-oro-dark);
+  --bs-btn-disabled-bg:         var(--ovic-oro);
+  --bs-btn-disabled-border-color: var(--ovic-oro);
+}
+
+/* Testate di card e di sezione: da barra piena scura a etichetta chiara con
+   un filetto. Una barra scura e' il massimo dell'enfasi: usata per ogni
+   sezione non enfatizza piu' niente, e sommata alla testata scura fa
+   zebratura. Il filetto dice "qui comincia una sezione" senza gridarlo.
+
+   Nota: le sezioni che nel template hanno uno `style="background:..."` in
+   linea (in Vetway: vene/arteria polmonari, verde) restano come sono — lo
+   stile in linea vince. Si tolgono quando si tocca quel template. */
+body[data-aspetto="compatto"] .ovic-card .card-header-ovic,
+body[data-aspetto="compatto"] .sezione-titolo {
+  background: transparent;
+  color: var(--ovic-blu);
+  border-bottom: 1px solid var(--ovic-bordo);
+  border-radius: 0;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+body[data-aspetto="compatto"] .ovic-card .card-header-ovic::before,
+body[data-aspetto="compatto"] .sezione-titolo::before {
+  content: '';
+  width: 3px; height: 12px; flex: none;
+  background: var(--ovic-oro);
+  border-radius: 2px;
+}
+/* La card aveva l'angolo arrotondato solo in alto sulla testata: ora che la
+   testata e' trasparente l'arrotondamento lo porta la card. */
+body[data-aspetto="compatto"] .ovic-card .card-header-ovic {
+  padding: 0.6rem 1rem 0.5rem 0.9rem;
+}
+body[data-aspetto="compatto"] .sezione-titolo {
+  padding: 0 0 4px 0;
+}

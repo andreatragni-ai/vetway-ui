@@ -14,6 +14,11 @@ Blocchi, nell'ordine in cui compaiono:
   body_tema    — valore di data-tema sul <body> (default: variabile body_tema o "originale")
   body_brand   — attributo data-brand sul <body> (default: data-brand="{{ body_brand }}" se
                  la variabile e' valorizzata; "osservatorio" attiva la palette OVIC)
+  body_aspetto — attributo data-aspetto sul <body> (dalla 0.5.0; default: assente).
+                 Asse indipendente da body_brand: il marchio decide i colori,
+                 l'aspetto il peso degli elementi. Unico valore previsto:
+                 "compatto". Senza variabile l'attributo non compare e la
+                 pagina e' identica a prima.
   body_attrs   — altri attributi del <body>
   avvisi       — banner sopra la testata (es. "account di prova")
   header       — testata/banner del marchio
@@ -64,7 +69,7 @@ messages, user.is_authenticated.
 
   {% block extra_head %}{% endblock %}
 </head>
-<body data-tema="{% block body_tema %}{{ body_tema|default:'originale' }}{% endblock %}"{% block body_brand %}{% if body_brand %} data-brand="{{ body_brand }}"{% endif %}{% endblock %} data-sessione-minuti="{{ sessione_minuti|default:300 }}"{% block body_attrs %}{% endblock %}>
+<body data-tema="{% block body_tema %}{{ body_tema|default:'originale' }}{% endblock %}"{% block body_brand %}{% if body_brand %} data-brand="{{ body_brand }}"{% endif %}{% endblock %}{% block body_aspetto %}{% if body_aspetto %} data-aspetto="{{ body_aspetto }}"{% endif %}{% endblock %} data-sessione-minuti="{{ sessione_minuti|default:300 }}"{% block body_attrs %}{% endblock %}>
 
 {% block avvisi %}{% endblock %}
 

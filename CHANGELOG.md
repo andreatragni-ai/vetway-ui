@@ -4,6 +4,62 @@ Ogni versione e' un tag annotato; le applicazioni ospiti agganciano un tag.
 Regola fissa: nessuna logica di dominio, ogni modifica retrocompatibile
 (variabili nuove sempre facoltative, chi non le usa non vede cambiare nulla).
 
+## 0.5.0 — 2026-11-08
+
+Due correzioni di colore che valgono sempre, e un secondo asse facoltativo
+per l'aspetto.
+
+### Correzioni (nessun interruttore: erano difetti, non gusti)
+
+- **`.btn-primary` prende il colore del marchio.** Era il blu di Bootstrap
+  `#0d6efd`: l'azione piu' importante dell'app dipinta di un colore che non
+  appartiene a Vetway. Attenzione al come: Bootstrap 5.3 **non** ricava
+  `.btn-primary` da `--bs-primary` — la classe si porta dentro i propri
+  `--bs-btn-*` gia' risolti in fase di compilazione, quindi toccare
+  `--bs-primary` nei token non avrebbe spostato niente. Si riscrivono le sue
+  variabili. Il colore scelto e' `--ovic-blu`, non `--ovic-oro`, perche' nei
+  template di Vetway c'erano gia' un'ottantina di
+  `style="background:var(--ovic-blu)"` messi a mano sopra a `.btn-primary`
+  per rimediare: il colore giusto era gia' deciso, qui si smette solo di
+  riscriverlo ogni volta. Dove la patch in linea c'e' ancora non cambia
+  nulla (lo stile in linea vince), dove non c'era il bottone smette di
+  essere blu. **`--bs-primary` resta quello di Bootstrap**: cambiarlo
+  sposterebbe anche `.text-primary`, `.bg-primary`, i "subtle" delle
+  `.pill-stato` e gli alert, cioe' schermate che nessuno ha guardato.
+- **`--bs-code-color` da rosa a grigio ardesia.** `<code>` usciva `#d63384`,
+  il rosa di Bootstrap. In Vetway salta fuori di continuo, perche' gli ID
+  OVIC e i codici patologia sono marcati `<code>`.
+
+### Novita' facoltative
+
+- **`body_aspetto` → `data-aspetto` sul `<body>`** (blocco `body_aspetto` in
+  `base.html`). Secondo asse, **indipendente da `data-brand`**: il marchio
+  decide i colori (Vetway petrolio / OVIC navy), l'aspetto il peso degli
+  elementi. Unico valore previsto: `compatto`. Senza la variabile
+  l'attributo non compare.
+- **Aspetto `compatto`** in `vetway.css`, tutto dentro
+  `body[data-aspetto="compatto"]`: il primario passa a `--ovic-oro` (nel
+  compatto la testata e' gia' petrolio e un bottone dello stesso colore ci
+  si perde), e le testate di card e di sezione passano da barra piena scura
+  a etichetta chiara con un filetto d'accento. Nasce come **ponte**: serve a
+  provare sul campo un'impaginazione piu' leggera senza imporla a nessuno.
+  Se vince diventa il default e il blocco sparisce; se perde sparisce lo
+  stesso. Contiene **solo cio' che si ottiene a markup invariato** — testata
+  in una riga sola, striscia dei valori e barra di posizione nel range sono
+  cambi di markup, e vanno decisi una volta sola, non messi dietro un
+  interruttore.
+- **`nascondi_tecnologia` nel footer**: toglie "Django + PostgreSQL". Lo
+  stack non e' affare di chi referta, e in una pagina che puo' vedere anche
+  un cliente e' rumore. **Acceso per difetto**, perche' spegnerlo d'ufficio
+  cambierebbe il piede di tutti gli ospiti senza che l'abbiano deciso.
+
+### Cosa resta invariato
+
+Nessun markup cambiato a parita' di contesto: la fotografia del footer della
+0.1.0 passa ancora byte per byte, e `data-aspetto` non compare se non lo si
+chiede. Chi aggiorna senza toccare niente vede cambiare solo i due colori
+delle correzioni.
+
 ## 0.4.2 — 2026-09-24
 
 Pagine di accesso: i link si riescono a toccare con un dito.
