@@ -18,7 +18,7 @@ per l'aspetto.
   `--bs-btn-*` gia' risolti in fase di compilazione, quindi toccare
   `--bs-primary` nei token non avrebbe spostato niente. Si riscrivono le sue
   variabili. Il colore scelto e' `--ovic-blu`, non `--ovic-oro`, perche' nei
-  template di Vetway c'erano gia' un'ottantina di
+  template di Vetway c'erano gia' **undici**
   `style="background:var(--ovic-blu)"` messi a mano sopra a `.btn-primary`
   per rimediare: il colore giusto era gia' deciso, qui si smette solo di
   riscriverlo ogni volta. Dove la patch in linea c'e' ancora non cambia
@@ -39,12 +39,13 @@ per l'aspetto.
   l'attributo non compare.
 - **Aspetto `compatto`** in `vetway.css`, tutto dentro
   `body[data-aspetto="compatto"]`: le testate di card e di sezione passano
-  da barra piena scura a etichetta chiara con un filetto d'accento. Il
-  bottone primario invece **non** cambia, ed e' una rinuncia consapevole:
-  portarlo all'accento starebbe meglio, ma le patch in linea dei template
-  ospiti vincono sul foglio di stile e sulla stessa schermata si
-  vedrebbero due "Salva" di colore diverso. Si riprende quando quelle patch
-  saranno tolte. Nasce come **ponte**: serve a
+  da barra piena scura a etichetta chiara con un filetto d'accento, e il
+  primario passa a `--ovic-oro` (con le testate chiare il petrolio diventa
+  il colore piu' pesante della pagina senza esserne l'elemento piu'
+  importante). Quest'ultima regola regge **solo** finche' gli ospiti non
+  riscrivono il colore in linea: se una patch rientra, sulla stessa
+  schermata tornano due "Salva" di colore diverso. Nasce come **ponte**:
+  serve a
   provare sul campo un'impaginazione piu' leggera senza imporla a nessuno.
   Se vince diventa il default e il blocco sparisce; se perde sparisce lo
   stesso. Contiene **solo cio' che si ottiene a markup invariato** — testata
