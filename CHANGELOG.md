@@ -38,10 +38,13 @@ per l'aspetto.
   elementi. Unico valore previsto: `compatto`. Senza la variabile
   l'attributo non compare.
 - **Aspetto `compatto`** in `vetway.css`, tutto dentro
-  `body[data-aspetto="compatto"]`: il primario passa a `--ovic-oro` (nel
-  compatto la testata e' gia' petrolio e un bottone dello stesso colore ci
-  si perde), e le testate di card e di sezione passano da barra piena scura
-  a etichetta chiara con un filetto d'accento. Nasce come **ponte**: serve a
+  `body[data-aspetto="compatto"]`: le testate di card e di sezione passano
+  da barra piena scura a etichetta chiara con un filetto d'accento. Il
+  bottone primario invece **non** cambia, ed e' una rinuncia consapevole:
+  portarlo all'accento starebbe meglio, ma le patch in linea dei template
+  ospiti vincono sul foglio di stile e sulla stessa schermata si
+  vedrebbero due "Salva" di colore diverso. Si riprende quando quelle patch
+  saranno tolte. Nasce come **ponte**: serve a
   provare sul campo un'impaginazione piu' leggera senza imporla a nessuno.
   Se vince diventa il default e il blocco sparisce; se perde sparisce lo
   stesso. Contiene **solo cio' che si ottiene a markup invariato** — testata

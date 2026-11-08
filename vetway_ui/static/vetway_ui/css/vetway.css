@@ -725,18 +725,15 @@ body[data-tema="originale"] .ovic-sidebar-nav .sidebar-item.active .tab-stato.vu
    messi dietro un interruttore.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Il primario passa all'accento: nel compatto la testata e' gia' petrolio,
-   e un bottone dello stesso colore ci si perderebbe dentro. */
-body[data-aspetto="compatto"] .btn-primary {
-  --bs-btn-bg:                  var(--ovic-oro);
-  --bs-btn-border-color:        var(--ovic-oro);
-  --bs-btn-hover-bg:            var(--ovic-oro-dark);
-  --bs-btn-hover-border-color:  var(--ovic-oro-dark);
-  --bs-btn-active-bg:           var(--ovic-oro-dark);
-  --bs-btn-active-border-color: var(--ovic-oro-dark);
-  --bs-btn-disabled-bg:         var(--ovic-oro);
-  --bs-btn-disabled-border-color: var(--ovic-oro);
-}
+/* Il bottone primario NON cambia nel compatto, ed e' una rinuncia
+   consapevole, non una dimenticanza. Portarlo a --ovic-oro (l'accento)
+   starebbe meglio accanto alle testate chiare, ma gli ottanta
+   `style="background:var(--ovic-blu)"` in linea nei template di Vetway
+   vincono sul foglio di stile: sulla stessa schermata si vedrebbero due
+   "Salva" di colore diverso, uno teal e uno petrolio. Un difetto visibile
+   costa piu' di quanto renda un miglioramento di sfumatura.
+   Si riprende quando quelle patch saranno tolte: ora che .btn-primary porta
+   da solo il colore giusto sono tutte ridondanti. */
 
 /* Testate di card e di sezione: da barra piena scura a etichetta chiara con
    un filetto. Una barra scura e' il massimo dell'enfasi: usata per ogni
